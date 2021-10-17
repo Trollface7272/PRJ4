@@ -1,0 +1,3 @@
+[{"id":1, "name":"test1", "sessions": ["asdf"]},
+{"id":2, "name":"test2", "sessions": ["asdfas", "fdhd"]},
+{"id":3, "name":"test3", "sessions": ["asdfdaa"]}]
