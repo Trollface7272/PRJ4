@@ -1,9 +1,9 @@
-import SlideNav from "./SlideNav"
+import SideNav from "../components/SideNav"
 
 const Messages = () => {
     return (
         <>
-            <SlideNav />
+            <SideNav />
         </>
     )
 }

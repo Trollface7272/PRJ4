@@ -7,7 +7,7 @@ import { logoUrl } from "../shared/Globals"
 import { EmptyUser } from "../types/api-users"
 
 
-const SlideNav = () => {
+const SideNav = () => {
     const [loaded, setLoaded] = useState(localLoaded)
     const [profile, setProfile] = useState(getProfileFast())
     
@@ -69,4 +69,4 @@ const SlideNav = () => {
     )
 }
 
-export default SlideNav
+export default SideNav

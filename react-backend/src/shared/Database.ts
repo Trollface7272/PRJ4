@@ -1,7 +1,7 @@
 import { User } from "src/types/Database"
 import { Connection as Conn, connect, connection, Schema, model } from "mongoose"
 import logger from "./Logger"
-import { DatabaseOptions } from "./secret-constants"
+import { DatabaseOptions } from "./SecretConstants"
 var Connection: Conn
 
 const schema = new Schema<User>({

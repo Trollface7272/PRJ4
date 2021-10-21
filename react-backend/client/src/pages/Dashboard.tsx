@@ -1,9 +1,9 @@
-import SlideNav from "./SlideNav"
+import SideNav from "../components/SideNav"
 
 const Dashboard = () => {
     return (
         <>
-            <SlideNav />
+            <SideNav />
         </>
     )
 }
