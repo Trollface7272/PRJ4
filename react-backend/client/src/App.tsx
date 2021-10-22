@@ -26,7 +26,7 @@ function App() {
         })
     }, [location, history])
     return (
-        <div className="vh-100 gradient d-flex">
+        <div className="vh-100 w-100 gradient d-flex">
             <Route path={["/login"]} component={LoginForm} />
             <Route path={["/dashboard"]} component={Dashboard} />
             <Route path={["/quests"]} component={Quests} />
