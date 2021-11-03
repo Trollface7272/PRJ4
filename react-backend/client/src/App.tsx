@@ -9,9 +9,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/App.css'
 import Dashboard from './pages/Dashboard'
 import Quests from './pages/Quests'
-import Scheadule from './pages/Scheadule'
 import Messages from './pages/Messages'
 import Profile from './pages/Profile'
+import Shop from './pages/Shop'
 
 function App() {
     const history = useHistory()
@@ -30,8 +30,8 @@ function App() {
             <Route path={["/login"]} component={LoginForm} />
             <Route path={["/dashboard"]} component={Dashboard} />
             <Route path={["/quests"]} component={Quests} />
-            <Route path={["/scheadule"]} component={Scheadule} />
             <Route path={["/messages"]} component={Messages} />
+            <Route path={["/shop"]} component={Shop} />
             <Route path={["/profile"]} component={Profile} />
         </div>
     )

@@ -1,3 +1,4 @@
+import { getQuests } from '@shared/Database'
 import { Router } from 'express'
 import { getLocalization } from './Localizations'
 import { getAllUsers, addOneUser, updateOneUser, deleteOneUser, isSessionValid, getUser } from './Users'
@@ -17,9 +18,14 @@ userRouter.post('/user', getUser)
 const localizationRouter = Router()
 localizationRouter.get("/get", getLocalization)
 
+// Quests-route
+const questsRouter = Router()
+questsRouter.get("/get", getQuests)
+
 
 // Export the base-router
 const baseRouter = Router()
 baseRouter.use('/users', userRouter)
 baseRouter.use('/local', localizationRouter)
+baseRouter.use("/quests", questsRouter)
 export default baseRouter

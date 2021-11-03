@@ -1,11 +1,12 @@
 interface params {
     text?: String
+    className?: String
 }
 
-const Button = ({text}: params) => {
+const Button = ({text, className}: params) => {
     return (
         <>
-            <button className="btn btn-outline-light btn-lg px-5">{text || ""}</button>
+            <button className={"btn btn-outline-light btn-lg px-5 " + className}>{text || ""}</button>
         </>
     )
 }

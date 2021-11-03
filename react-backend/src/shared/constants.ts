@@ -8,6 +8,10 @@ export const emptyUser: User = {
     name: "",
     sessions: ["asdfas"],
     username: "",
+    coins: 0,
+    groups: [],
+    level: 0,
+    xp: 0,
     permissions: {
         profile: {
             avatarChange: true,

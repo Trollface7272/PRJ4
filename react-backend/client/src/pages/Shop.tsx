@@ -1,11 +1,11 @@
 import SideNav from "../components/SideNav"
 
-const Scheadule = () => {
+const Shop = () => {
     return (
         <>
-            <SideNav />
+            <SideNav />   
         </>
     )
 }
 
-export default Scheadule
+export default Shop

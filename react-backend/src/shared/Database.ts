@@ -1,4 +1,4 @@
-import { User } from "src/types/Database"
+import { Quest, User } from "src/types/Database"
 import { Connection as Conn, connect, connection, Schema, model } from "mongoose"
 import logger from "./Logger"
 import { DatabaseOptions } from "./SecretConstants"
@@ -8,7 +8,12 @@ var Connection: Conn
 const schema = new Schema<User>({
     id: Number,
     name: String,
-    sessions: Array
+    permissions: Object,
+    groups: Array,
+    sessions: Array,
+    level: Number,
+    xp: Number,
+    coins: Number
 })
 
 const Model = model<User>("User", schema)
@@ -36,7 +41,15 @@ export const isSessionValid = async (session: string): Promise<boolean> => {
 }
 
 export const getUserFromSession = async (session: string): Promise<User> => {
-    const res = (await Connection?.collection("users")?.findOne({sessions: {$all: [session]}})) as User
+    const res = (await Connection?.collection("users")?.findOne<User>({sessions: {$all: [session]}}))
 
     return res || (isDev && emptyUser)
+}
+
+export const getQuests = async (query: any): Promise<Quest[]> => {
+    let out: Quest[] = []
+    for await (const doc of Connection.collection("quests").find<Quest>(query)) {
+        out.push(doc)
+    }
+    return out
 }
