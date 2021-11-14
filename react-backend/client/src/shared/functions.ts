@@ -1,4 +1,4 @@
-import { currentLanguage } from "./Globals"
+import { currentLanguage, Logger } from "./Globals"
 import Cookies  from "js-cookie"
 import { ApiUser, EmptyUser, User } from "../types/api-users"
 
@@ -7,6 +7,7 @@ export const getSessionCookie = (): string => {
 }
 
 export const PostRequest = (url: string, data: any) => {
+    Logger.debug(`POST request -> ${url}`)
     return fetch(url, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
@@ -46,6 +47,7 @@ export const getProfileData = async (): Promise<User> => {
     if (profile) return profile
     const resp = await PostRequest("/api/users/user", {session: getSessionCookie()})
     const user = (await resp.json() as ApiUser).user
+    Logger.debug(user)
     profile = user
     return user
 }

@@ -1,6 +1,6 @@
-import { getQuests } from '@shared/Database'
 import { Router } from 'express'
 import { getLocalization } from './Localizations'
+import { getAllVisibleQuests } from './Quests'
 import { getAllUsers, addOneUser, updateOneUser, deleteOneUser, isSessionValid, getUser } from './Users'
 
 
@@ -20,7 +20,7 @@ localizationRouter.get("/get", getLocalization)
 
 // Quests-route
 const questsRouter = Router()
-questsRouter.get("/get", getQuests)
+questsRouter.post("/load", getAllVisibleQuests)
 
 
 // Export the base-router
