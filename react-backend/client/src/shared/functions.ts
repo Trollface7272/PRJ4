@@ -1,6 +1,7 @@
 import { currentLanguage, Logger } from "./Globals"
 import Cookies  from "js-cookie"
 import { ApiUser, EmptyUser, User } from "../types/api-users"
+import { IQuest } from "../types/api-quests"
 
 export const getSessionCookie = (): string => {
     return Cookies.get("session") || "asdfas"
@@ -50,4 +51,24 @@ export const getProfileData = async (): Promise<User> => {
     Logger.debug(user)
     profile = user
     return user
+}
+
+let Quests: IQuest[]
+export const GetQuests = async () => {
+    if (!Quests) await FetchQuests()
+    return Quests
+}
+
+const FetchQuests = async () => {
+    let quests = await (await PostRequest("/api/quests/load", {
+        session: getSessionCookie()
+    })).json()
+    Logger.debug(quests)
+    Quests = [...quests, ...quests, ...quests, ...quests, ...quests, ...quests, ...quests, ...quests, ...quests, ...quests, ...quests, ...quests, ...quests]    
+
+}
+
+export const GetQuestById = async (id: string) => {
+    if (!Quests) await FetchQuests()
+    return Quests.find(el => el.id == id)
 }

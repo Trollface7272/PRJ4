@@ -41,9 +41,9 @@ const SideBar = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/scheadule" className={LinkClasses + (path.pathname === "/scheadule" ? "active" : "")}>
-                            <Image src="/scheadule.svg" width="32px" className="bi me-2 fill-white" />
-                            <span>{getLocal("scheadule")}</span>
+                        <Link to="/shop" className={LinkClasses + (path.pathname === "/shop" ? "active" : "")}>
+                            <Image src="/shop.svg" width="32px" className="bi me-2 fill-white" />
+                            <span>{getLocal("shop")}</span>
                         </Link>
                     </li>
                     <li>

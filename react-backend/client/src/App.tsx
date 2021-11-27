@@ -8,11 +8,13 @@ import { ApiSession } from './types/api-users'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/App.css'
 import Dashboard from './pages/Dashboard'
-import Quests from './pages/Quests'
+import Quests from './pages/quests/Quests'
 import Messages from './pages/Messages'
 import Profile from './pages/Profile'
 import Shop from './pages/Shop'
-
+import TurnIn from './pages/quests/TurnIn'
+import consola, { LogLevel } from 'consola'
+consola.level = LogLevel.Verbose
 function App() {
     const history = useHistory()
     const location = useLocation()
@@ -27,12 +29,13 @@ function App() {
     }, [location, history])
     return (
         <div className="vh-100 w-100 gradient d-flex">
-            <Route path={["/login"]} component={LoginForm} />
-            <Route path={["/dashboard"]} component={Dashboard} />
-            <Route path={["/quests"]} component={Quests} />
-            <Route path={["/messages"]} component={Messages} />
-            <Route path={["/shop"]} component={Shop} />
-            <Route path={["/profile"]} component={Profile} />
+            <Route exact path={["/login"]} component={LoginForm} />
+            <Route exact path={["/dashboard"]} component={Dashboard} />
+            <Route exact path={["/quests"]} component={Quests} />
+            <Route exact path={["/messages"]} component={Messages} />
+            <Route exact path={["/shop"]} component={Shop} />
+            <Route exact path={["/profile"]} component={Profile} />
+            <Route exact path={["/quests/turnin/:id"]} component={TurnIn} />
         </div>
     )
 }

@@ -9,7 +9,7 @@ export interface IQuestRewards {
 }
 
 export interface IQuest {
-    id: number
+    id: string
     name: string
     description: string
     requirements: IQuestRequirements
@@ -17,7 +17,7 @@ export interface IQuest {
 }
 
 export const EmptyQuest: IQuest = {
-    id: 0,
+    id: "0",
     name: "",
     description: "",
     requirements: {
