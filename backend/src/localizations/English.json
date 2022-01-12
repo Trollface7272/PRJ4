@@ -1,0 +1,18 @@
+{
+    "app-name": "Gamifikace",
+    "login": "Login",
+    "login-please-enter-details": "Please enter your login and password!",
+    "username": "Username",
+    "password": "Password",
+    "name": "Name",
+    "dashboard": "Dashboard",
+    "quests": "Quests",
+    "scheadule": "Scheadule",
+    "messages": "Messages",
+    "change-username": "Change Username",
+    "change-name": "Change Name",
+    "change-password": "Change Password",
+    "buy": "Buy",
+    "shop": "Shop",
+    "submit": "Submit"
+}
