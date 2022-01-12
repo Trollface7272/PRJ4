@@ -5,7 +5,7 @@ import { Route} from "react-router-dom"
 import { useHistory } from "react-router"
 import LoginForm from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import Quests from './pages/Quests'
+import Quests from './pages/quests/Quests'
 import Messages from './pages/Messages'
 import Profile from './pages/Profile'
 import Shop from './pages/Shop'

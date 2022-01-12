@@ -1,6 +1,7 @@
 import { currentLanguage, Logger } from "./Globals"
 import Cookies  from "js-cookie"
 import { ApiUser, EmptyUser, User } from "../types/api-users"
+import { IQuest } from "../types/api-quests"
 
 export const getSessionCookie = (): string => {
     return Cookies.get("session") || "asdfas"
