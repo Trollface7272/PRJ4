@@ -14,6 +14,17 @@ export interface User {
     id: number
     username: string
     name: string
+}
+export const EmptyUser: User = {
+    id: 0,
+    username: "",
+    name: "",
+}
+
+export interface Permissions {
+    admin: boolean
+    teacher: boolean
+    student: boolean
     permissions: {
         profile: {
             usernameChange: boolean
@@ -23,16 +34,17 @@ export interface User {
         }
     }
 }
-export const EmptyUser: User = {
-    id: 0,
-    username: "",
-    name: "",
+
+export const EmptyPermissions = {
+    admin: false,
+    teacher: false,
+    student: true,
     permissions: {
         profile: {
-            usernameChange: true,
-            passwordChange: true,
-            nameChange: true,
-            avatarChange: true
+            usernameChange: false,
+            passwordChange: false,
+            nameChange: false,
+            avatarChange: false
         }
     }
 }

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Card } from "react-bootstrap"
 import { useCookies } from "react-cookie"
 import { useHistory } from "react-router"
+import useSWR from "swr"
 import InputTextBox from "../components/InputTextBox"
 import "../css/LoginForm.css"
 import { getLocal, loadLocal, PostRequest } from "../shared/functions"
@@ -13,6 +14,7 @@ enum Errors {
 }
 
 const LoginForm = () => {
+    useSWR("local", loadLocal)
     const [loaded, setLoaded] = useState(false)
     const [error, setError] = useState(0)
     const [cookies, setCookie, removeCookie] = useCookies(["session"])

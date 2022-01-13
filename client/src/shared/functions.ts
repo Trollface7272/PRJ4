@@ -1,7 +1,5 @@
 import { currentLanguage, Logger } from "./Globals"
 import Cookies  from "js-cookie"
-import { ApiUser, EmptyUser, User } from "../types/api-users"
-import { IQuest } from "../types/api-quests"
 
 export const getSessionCookie = (): string => {
     return Cookies.get("session") || "asdfas"
@@ -17,6 +15,7 @@ export const PostRequest = (url: string, data: any) => {
 }
 
 export const GetRequest = (url: string, data: any) => {
+    Logger.debug(`GET request -> ${url}`)
     url += "?"
     for(const key in data) url += `${key}=${data[key]}`
     
@@ -40,19 +39,6 @@ export const getLocal = (text: string): string => {
     return Localization[text] || text
 }
 
-
-let profile: User
-export const getProfileFast = (): User => {
-    return profile || EmptyUser
-}
-export const getProfileData = async (): Promise<User> => {
-    if (profile) return profile
-    const resp = await PostRequest("/api/users/user", {session: getSessionCookie()})
-    const user = (await resp.json() as ApiUser).user
-    Logger.debug(user)
-    profile = user
-    return user
-}
 export const swrFetcher = (url: string, cookie: string) => PostRequest(url, {session: cookie}).then(res => res.json())//fetch(url, {method: "POST", body: JSON.stringify({session: cookie})}).then(r => r.json())
 
 export const readFile = (file: File) => {

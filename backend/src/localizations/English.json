@@ -14,5 +14,9 @@
     "change-password": "Change Password",
     "buy": "Buy",
     "shop": "Shop",
-    "submit": "Submit"
+    "submit": "Submit",
+    "logout": "Logout",
+    "new-quests": "You have %count% new quests.",
+    "new-shop-items": "There are %count% new items in shop.",
+    "new-messages": "You got %count% new messages."
 }

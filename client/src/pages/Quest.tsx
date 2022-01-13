@@ -4,16 +4,16 @@ import { useHistory, useParams } from "react-router"
 import useSWR from "swr";
 import Button from "../components/Button";
 import SideNav from "../components/SideNav";
-import { getLocal, PostRequest, readFile, swrFetcher } from "../shared/functions";
+import { getLocal, loadLocal, PostRequest, readFile, swrFetcher } from "../shared/functions";
 
 
 
 const Quest = () => {
+    useSWR("local", loadLocal)
     const { id } = useParams<{id: string}>()
     const [cookies] = useCookies(["session"])
     const { data } = useSWR([`/api/quests/quest/${id}`, cookies.session], swrFetcher)
     const history = useHistory()
-    console.log(data);
     if (!data) return <><SideNav /></>
     const fileInputHandle = () => {
         const input = document.getElementById("latest")
@@ -47,8 +47,6 @@ const Quest = () => {
                 data: await readFile(file)
             })
         }
-        
-        console.log(data)
         const submitButton = document.getElementById("submitButton") as HTMLButtonElement
         PostRequest(`/api/quests/submit/${id}`, {text: text, files: data, session: cookies.session})
         .catch(e => submitButton.disabled = false)

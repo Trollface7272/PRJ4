@@ -1,19 +1,17 @@
 import { useCookies } from "react-cookie"
-import { useHistory } from "react-router"
 import useSWR from "swr"
 import SideNav from "../components/SideNav"
-import { swrFetcher } from "../shared/functions"
+import { loadLocal, swrFetcher } from "../shared/functions"
 import { IShopItem } from "../types/api-shop"
 import ShopCard from "../components/ShopCard"
 
 const Shop = () => {
+    useSWR("local", loadLocal)
     const [cookies] = useCookies(["session"])
     const { data } = useSWR(["/api/shop/load", cookies.session], swrFetcher)
-    const history = useHistory()
     let shopItems: IShopItem[]
     if (data) shopItems = data
     else shopItems = []
-    console.log(data);
     
     return (
         <>

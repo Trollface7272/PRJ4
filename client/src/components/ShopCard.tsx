@@ -1,13 +1,24 @@
+import { useRef } from 'react'
 import { Card } from 'react-bootstrap'
-import { getLocal } from '../shared/functions'
+import { useCookies } from 'react-cookie'
+import { getLocal, PostRequest } from '../shared/functions'
 import { IShopItem } from '../types/api-shop'
-import Button from './Button'
 
 interface param {
     shopItem: IShopItem
 }
 
-const QuestCard = ({shopItem}: param) => {
+const ShopCard = ({shopItem}: param) => {
+    const [cookies] = useCookies(["session"])
+    const ref = useRef<HTMLButtonElement>(null)
+
+    const buyHandler = () => {
+        PostRequest("/api/shop/buy", {id: shopItem._id, session: cookies.session})
+        .catch(e => ref.current!.disabled = false)
+        .then(e => ref.current!.disabled = false)
+        ref.current!.disabled = true
+    }
+
     return (
         <Card style={{width: "250px"}} className="background-dark">
             <Card.Header className="d-flex justify-content-center align-items-center">
@@ -20,10 +31,10 @@ const QuestCard = ({shopItem}: param) => {
             </Card.Body>
             <Card.Footer className="d-flex">
                 <div className="w-50">Coins: {shopItem.cost}</div>
-                <div className="w-50 d-flex justify-content-end"><button className="btn btn-outline-dark btn-lg px-5">{getLocal("buy")}</button></div>
+                <div className="w-50 d-flex justify-content-end"><button ref={ref} onClick={buyHandler} className="btn btn-outline-dark btn-lg px-5">{getLocal("buy")}</button></div>
             </Card.Footer>
         </Card>
     )
 }
 
-export default QuestCard
+export default ShopCard

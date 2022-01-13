@@ -20,7 +20,6 @@ const Model = model<IUser>("User", schema)
 
 
 export const GetUsers = async (): Promise<IUser[]> => {
-    console.log(connection.collection("users"))
     return []
 }
 
@@ -29,7 +28,7 @@ export const isSessionValid = async (session: string): Promise<boolean> => {
 }
 
 export const getUserFromSession = async (session: string): Promise<IUser> => {
-    const res = (await collection()?.findOne<IUser>({sessions: {$all: [session]}}))
+    const res = (await collection()?.findOne<IUser>({ sessions: { $all: [session] } }))
 
     return res || (isDev && emptyUser)
 }
@@ -37,18 +36,32 @@ export const getUserFromSession = async (session: string): Promise<IUser> => {
 export const addSession = async (id: Types.ObjectId) => {
     const sessionString = randomBytes(16).toString("hex")
 
-    ;(await collection().updateOne({_id: id}, {$push: {sessions: sessionString}}))
+        ; (await collection().updateOne({ _id: id }, { $push: { sessions: sessionString } }))
 
     return sessionString
 }
 
 export const findUser = async (name: string, password: string) => {
     password = HashPassword(password)
-    const res = (await collection()?.findOne<IUser>({username: name, password: password}))
+    const res = (await collection()?.findOne<IUser>({ username: name, password: password }))
     if (!res) return
 
     let session = await addSession(res._id)
     return session
+}
+
+export const updateCurrency = async (session: string, amount: number) => {
+    collection().updateOne({ sessions: { $all: [session] } }, { $inc: { coins: amount } })
+}
+
+export const changeUsername = (id: Types.ObjectId, newUsername: string) => {
+    collection().updateOne({ _id: id }, { $set: { username: newUsername } })
+}
+export const changeName = (id: Types.ObjectId, newName: string) => {
+    collection().updateOne({ _id: id }, { $set: { name: newName } })
+}
+export const changePassword = (id: Types.ObjectId, newPassword: string) => {
+    collection().updateOne({ _id: id }, { $set: { password: newPassword } })
 }
 
 const collection = () => connection.collection("users")

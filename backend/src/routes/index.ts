@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { getLocalization } from './Localizations'
 import { getAllVisibleQuests, getQuest, submitQuest } from './Quests'
-import { getAllVisibleItems } from './Shop'
-import { getAllUsers, isSessionValid, getUser, login } from './Users'
+import { buyItem, getAllVisibleItems } from './Shop'
+import { getAllUsers, isSessionValid, getUser, login, changeUsername, changeName, changePassword, getPermissions } from './Users'
 
 
 // User-route
@@ -11,6 +11,10 @@ userRouter.get('/all', getAllUsers)
 userRouter.post('/session', isSessionValid)
 userRouter.post('/user', getUser)
 userRouter.post('/login', login)
+userRouter.post('/permissions', getPermissions)
+userRouter.post('/changeusername', changeUsername)
+userRouter.post('/changename', changeName)
+userRouter.post('/changepassword', changePassword)
 
 // Localization-route
 const localizationRouter = Router()
@@ -25,8 +29,7 @@ questsRouter.post("/submit/:id", submitQuest)
 // Shop-route
 const shopRouter = Router()
 shopRouter.post("/load", getAllVisibleItems)
-shopRouter.post("/item/:id", )
-shopRouter.post("/submit/:id", )
+shopRouter.post("/buy", buyItem)
 
 
 // Export the base-router

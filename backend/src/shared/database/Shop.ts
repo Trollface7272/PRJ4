@@ -1,4 +1,4 @@
-import { connection } from "mongoose"
+import { connection, Types } from "mongoose"
 import { IShopItem } from "src/types/Database"
 
 
@@ -9,6 +9,12 @@ export const getShopItems = async (query: any) => {
         out.push(doc)
     }
     return out
+}
+
+export const getShopItem = async (id: string) => {
+    const res = await collection().findOne<IShopItem>({_id: new Types.ObjectId(id)})
+
+    return res
 }
 
 
