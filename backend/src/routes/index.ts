@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { getAvailibleLocalization, getLocalization } from './Localizations'
+import { onSubmit } from './Messages'
 import { getAllVisibleQuests, getQuest, submitQuest } from './Quests'
 import { buyItem, getAllVisibleItems } from './Shop'
 import { getAllUsers, isSessionValid, getUser, login, changeUsername, changeName, changePassword, getPermissions, getNames } from './Users'
@@ -33,6 +34,10 @@ const shopRouter = Router()
 shopRouter.post("/load", getAllVisibleItems)
 shopRouter.post("/buy", buyItem)
 
+// Shop-route
+const messagesRouter = Router()
+messagesRouter.post("/send", onSubmit)
+
 
 // Export the base-router
 const baseRouter = Router()
@@ -40,4 +45,5 @@ baseRouter.use('/users', userRouter)
 baseRouter.use('/local', localizationRouter)
 baseRouter.use("/quests", questsRouter)
 baseRouter.use("/shop", shopRouter)
+baseRouter.use("/messages", messagesRouter)
 export default baseRouter

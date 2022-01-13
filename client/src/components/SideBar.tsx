@@ -6,7 +6,6 @@ import { logoUrl } from '../shared/Globals'
 import { EmptyUser, User } from '../types/api-users'
 import useSWR from "swr"
 import { useCookies } from 'react-cookie'
-import Button from './Button'
 
 const SideBar = () => {
     useSWR("local", loadLocal)

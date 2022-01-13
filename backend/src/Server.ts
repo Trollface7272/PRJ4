@@ -53,7 +53,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 const viewsDir = path.join(__dirname, 'views');
 app.set('views', viewsDir);
-const staticDir = path.join(__dirname, "..", 'public');
+const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 // Export express instance
 export default app;

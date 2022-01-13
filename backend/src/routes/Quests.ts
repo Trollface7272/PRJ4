@@ -57,7 +57,7 @@ export const submitQuest = async (req: Request, res: Response) => {
     for (const file of files) {
         const fileName = randomBytes(16).toString("hex") + "." + file.name.split(".").at(-1)
         fileNames.push(fileName)
-        writeFileSync(join(__dirname, "..", "..", "public", fileName),
+        writeFileSync(join(__dirname, "..", "public", "files", fileName),
             Buffer.from(file.data.split(",")[1], "base64"))
     }
     

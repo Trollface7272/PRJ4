@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router"
 import useSWR from "swr";
 import Button from "../components/Button";
 import SideNav from "../components/SideNav";
-import { getLocal, loadLocal, PostRequest, readFile, swrFetcher } from "../shared/functions";
+import { getLocal, PostRequest, readFile, swrFetcher } from "../shared/functions";
 
 
 

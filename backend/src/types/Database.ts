@@ -84,3 +84,11 @@ export interface IShopItem {
     cost: number
     stock: number
 }
+
+export interface IMessage {
+    _id: Types.ObjectId,
+    from: Types.ObjectId,
+    to: Types.ObjectId,
+    text: string,
+    fileNames: string[]
+}

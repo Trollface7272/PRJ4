@@ -23,5 +23,6 @@
     "change-language": "Change Language.",
     "change-language-title": "Language",
     "send-message": "Send Message",
-    "new-messages-title": "New Messages"
+    "new-messages-title": "New Messages",
+    "new-message-title": "New Message"
 }

@@ -1,7 +1,7 @@
 import { useCookies } from "react-cookie"
 import useSWR from "swr"
 import SideNav from "../components/SideNav"
-import { loadLocal, swrFetcher } from "../shared/functions"
+import { swrFetcher } from "../shared/functions"
 import { IShopItem } from "../types/api-shop"
 import ShopCard from "../components/ShopCard"
 

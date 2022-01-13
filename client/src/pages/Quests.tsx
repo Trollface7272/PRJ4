@@ -3,7 +3,7 @@ import { useHistory } from "react-router"
 import useSWR from "swr"
 import QuestCard from "../components/QuestCard"
 import SideNav from "../components/SideNav"
-import { loadLocal, swrFetcher } from "../shared/functions"
+import { swrFetcher } from "../shared/functions"
 import { IQuest } from "../types/api-quests"
 
 const Quests = () => {
