@@ -1,16 +1,17 @@
-import { MouseEventHandler } from "react"
+import { CSSProperties, MouseEventHandler } from "react"
 
 interface params {
     text?: String
     className?: String
     onClick?: MouseEventHandler,
-    id?: string
+    id?: string,
+    style?: CSSProperties
 }
 
-const Button = ({text, className, onClick, id}: params) => {
+const Button = ({text, className, onClick, id, style}: params) => {
     return (
         <>
-            <button id={id} className={"btn btn-outline-light btn-lg px-5 " + className} onClick={onClick}>{text || ""}</button>
+            <button style={style} id={id} className={"btn btn-outline-light btn-lg px-5 " + className} onClick={onClick}>{text || ""}</button>
         </>
     )
 }

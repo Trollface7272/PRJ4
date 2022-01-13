@@ -1,11 +1,9 @@
 import { Card } from "react-bootstrap"
 import { useHistory } from "react-router"
-import useSWR from "swr"
 import SideNav from "../components/SideNav"
 import { getLocal, loadLocal } from "../shared/functions"
 
 const Dashboard = () => {
-    useSWR("local", loadLocal)
     const history = useHistory()
     return (
         <>

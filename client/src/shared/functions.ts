@@ -1,4 +1,4 @@
-import { currentLanguage, Logger } from "./Globals"
+import { Logger } from "./Globals"
 import Cookies  from "js-cookie"
 
 export const getSessionCookie = (): string => {
@@ -28,6 +28,7 @@ let Localization: any = {}
 let LoadedLanguage = ""
 export let loaded = false
 export const loadLocal = async () => {
+    const currentLanguage = Cookies.get("language") || "English"
     if (LoadedLanguage === currentLanguage) return
 
     await GetRequest("/api/local/get", {language: currentLanguage}).then(res => res.json()).then(lang => Localization = lang)

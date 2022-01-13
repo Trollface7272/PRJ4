@@ -1,5 +1,6 @@
 {
-    "app-name": "No idea",
+    "language": "Česky",
+    "app-name": "Gamifikace",
     "login": "Přihlásit se",
     "login-please-enter-details": "Prosím zadejte své uživatelské jméno a helso!",
     "username": "Uživatelské jméno",
@@ -10,5 +11,17 @@
     "scheadule": "Rozvrh",
     "messages": "Zprávy",
     "change-username": "Změnit Uživatelské Jméno",
-    "quest-turn-in": "Odevzdat"
+    "change-name": "Změnit Jméno",
+    "change-password": "Změnit Heslo",
+    "buy": "Koupit",
+    "shop": "Obchod",
+    "submit": "Odeslat",
+    "logout": "Odhlásit se",
+    "new-quests": "Máte %count% novích úkolů.",
+    "new-shop-items": "Přibylo %count% věcí v obchodě.",
+    "new-messages": "Máte %count% nevích správ.",
+    "change-language": "Změnit jazyk.",
+    "change-language-title": "Jazyk",
+    "send-message": "Odeslat zprávu",
+    "new-messages-title": "Nové Zprávy"
 }

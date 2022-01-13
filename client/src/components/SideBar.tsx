@@ -57,7 +57,9 @@ const SideBar = () => {
                     <Link to="/profile" className="text-decoration-none">
                         <Image src={profileImage} width="48" className="rounded-circle me-2" />
                         <strong className="text-white fs-5 align-middle">{profile.name}</strong>
-                        <Button className="float-end" text={getLocal("logout")} onClick={() => {removeCookie("session")}}></Button>
+                        <button style={{maxWidth: "50%", fontSize: "12px"}} className="float-end btn" onClick={() => {removeCookie("session")}}>
+                            <Image src="/logout.svg" width="32px" className="bi me-2 fill-white" />
+                        </button>
                     </Link>
                 </div>
             </Nav>

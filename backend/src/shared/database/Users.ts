@@ -63,5 +63,13 @@ export const changeName = (id: Types.ObjectId, newName: string) => {
 export const changePassword = (id: Types.ObjectId, newPassword: string) => {
     collection().updateOne({ _id: id }, { $set: { password: newPassword } })
 }
+export const getAllNames = async () => {
+    const out = []
+    //@ts-ignore
+    for await (const doc of collection().find<IUser>({})) {
+        out.push({_id: doc._id, name: doc.name})
+    }
+    return out
+}
 
 const collection = () => connection.collection("users")

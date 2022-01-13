@@ -6,15 +6,19 @@ import { getLocal, loadLocal, PostRequest, swrFetcher } from "../shared/function
 import useSWR from "swr"
 import { useCookies } from "react-cookie"
 import { EmptyPermissions, EmptyUser } from "../types/api-users"
+import { useHistory } from "react-router"
 
 const Profile = () => {
-    useSWR("local", loadLocal)
-    const [cookies] = useCookies(["session"])
+    const history = useHistory()
+    const [cookies, setCookie] = useCookies(["session", "language"])
     const { data } = useSWR(["/api/users/user", cookies.session], swrFetcher)
     const { data:permRaw } = useSWR(["/api/users/permissions", cookies.session], swrFetcher)
+    const { data:langRaw } = useSWR(["/api/local/list", cookies.session], swrFetcher)
+    
     
     const profile = data ? data.user : EmptyUser
     const permissions = permRaw ? permRaw.permissions : EmptyPermissions.permissions
+    const languages = langRaw ? langRaw : [{displayName: "English", requestName: "english"}]
 
     const changeUsername = async () => {
         const newUsername = (document.getElementById("new-username") as HTMLInputElement).value
@@ -35,10 +39,16 @@ const Profile = () => {
         if (newPassword.length <= 8) return
         await PostRequest("/api/users/changepassword", { newPassword: newPassword, oldPassword: oldPassword, session: cookies.session })
     }
+    const changeLanguage = async () => {
+        const selectedLanguage = (document.getElementById("language-select") as HTMLSelectElement).value
+        setCookie("language", selectedLanguage)
+        await loadLocal()
+        history.push("/dashboard")
+    }
     return (
         <>
             <SideNav />
-            <div className="vh-100 mw-100 content flex-shrink-0 p-3">
+            <div className="vh-100 mw-100 content flex-shrink-0 p-3" style={{overflowY: "scroll", overflowX: "hidden"}}>
                 <div className="row">
                     <Card style={{ width: "40vh" }} className="bg-dark text-white float-left m-3">
                         <Card.Title className="text-center pt-3">
@@ -82,6 +92,18 @@ const Profile = () => {
                                     <InputTextBox id="new-password-confirm" label="New Password" type="password" />
                                     <Button onClick={changePassword} className="w-100" text={getLocal("change-password")} />
                                 </> : ""}
+                        </Card.Body>
+                    </Card>
+
+                    <Card style={{ width: "40vh" }} className="bg-dark text-white float-left m-3">
+                        <Card.Title className="text-center pt-3">
+                            {getLocal("change-language-title")}
+                        </Card.Title>
+                        <Card.Body>
+                            <select id="language-select" style={{width: "100%"}}>
+                                {languages.map((lang: {requestName: string, displayName: string}) => <option key={lang.requestName} value={lang.requestName}>{lang.displayName}</option>)}
+                            </select>
+                            <Button onClick={changeLanguage} className="w-100" text={getLocal("change-language")} />
                         </Card.Body>
                     </Card>
                 </div>

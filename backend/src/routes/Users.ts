@@ -1,6 +1,6 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import { changeName as changeNameDb, changePassword as changePasswordDb, changeUsername as changeUsernameDb, findUser, getUserFromSession, GetUsers, isSessionValid as dbIsSessionValid } from '@shared/database/Users';
+import { changeName as changeNameDb, changePassword as changePasswordDb, changeUsername as changeUsernameDb, findUser, getAllNames, getUserFromSession, GetUsers, isSessionValid as dbIsSessionValid } from '@shared/database/Users';
 import { HashPassword } from '@shared/functions';
 import { getPermissions as getPermissionsDb } from '@shared/database/Groups';
 
@@ -75,4 +75,8 @@ export const getPermissions = async (req: Request, res: Response) => {
     const permissions = await getPermissionsDb(user)
     
     res.json(permissions)
+}
+
+export const getNames = async (req: Request, res: Response) => {
+    res.json(await getAllNames())
 }

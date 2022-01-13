@@ -1,4 +1,5 @@
 {
+    "language": "English",
     "app-name": "Gamifikace",
     "login": "Login",
     "login-please-enter-details": "Please enter your login and password!",
@@ -18,5 +19,9 @@
     "logout": "Logout",
     "new-quests": "You have %count% new quests.",
     "new-shop-items": "There are %count% new items in shop.",
-    "new-messages": "You got %count% new messages."
+    "new-messages": "You got %count% new messages.",
+    "change-language": "Change Language.",
+    "change-language-title": "Language",
+    "send-message": "Send Message",
+    "new-messages-title": "New Messages"
 }

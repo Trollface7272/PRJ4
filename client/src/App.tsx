@@ -13,6 +13,7 @@ import Quest from './pages/Quest'
 import { loadLocal } from './shared/functions'
 import useSWR from 'swr'
 import { useCookies } from 'react-cookie'
+import SendMessage from './pages/SendMessage'
 
 function App() {
     const history = useHistory()
@@ -28,6 +29,7 @@ function App() {
             <Route path={["/quests"]} component={Quests} />
             <Route path={["/quest/:id"]} component={Quest} />
             <Route path={["/messages"]} component={Messages} />
+            <Route path={["/sendmessage"]} component={SendMessage} />
             <Route path={["/shop"]} component={Shop} />
             <Route path={["/profile"]} component={Profile} />
         </div>
