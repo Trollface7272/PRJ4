@@ -6,7 +6,6 @@ import { IShopItem } from "../types/api-shop"
 import ShopCard from "../components/ShopCard"
 
 const Shop = () => {
-    useSWR("local", loadLocal)
     const [cookies] = useCookies(["session"])
     const { data } = useSWR(["/api/shop/load", cookies.session], swrFetcher)
     let shopItems: IShopItem[]

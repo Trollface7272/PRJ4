@@ -9,7 +9,6 @@ import { getLocal, loadLocal, PostRequest, readFile, swrFetcher } from "../share
 
 
 const Quest = () => {
-    useSWR("local", loadLocal)
     const { id } = useParams<{id: string}>()
     const [cookies] = useCookies(["session"])
     const { data } = useSWR([`/api/quests/quest/${id}`, cookies.session], swrFetcher)
