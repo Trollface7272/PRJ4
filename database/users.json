@@ -3,15 +3,7 @@
     "$oid": "616ff5a6181574a771d50721"
   },
   "name": "Test2",
-  "sessions": [
-    "2adad46a6d57adfeab9be3b3790481ce",
-    "5533e93c5b33cbc4a5801059ed27440e",
-    "bb282426960f21551fcf354a713a101b",
-    "3dd297562752f3920d6d7927bb213102",
-    "8d99350efc0b568a1bbb427876dd6b28",
-    "78ef8321251381404965b38b9603298b",
-    "282d4ab06e3585dda3151c50e6a7e3f9"
-  ],
+  "sessions": [],
   "permissions": {
     "profile": {
       "usernameChange": true,
