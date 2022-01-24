@@ -1,0 +1,68 @@
+[{
+  "_id": {
+    "$oid": "61e12245691f3991622844ff"
+  },
+  "fileNames": [],
+  "from": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "to": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "text": "Test",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61e1492c62dcee57692d9750"
+  },
+  "fileNames": [
+    "a81010753b634e9fce1d04c82c21a143.png"
+  ],
+  "originalNames": [
+    "image-removebg-preview.png"
+  ],
+  "from": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "to": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "text": "Test",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61e1493d62dcee57692d9769"
+  },
+  "fileNames": [
+    "b70ee26936e72bc590461aa8c0d32766.exe"
+  ],
+  "originalNames": [
+    "OfficeSetup.exe"
+  ],
+  "from": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "to": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "text": "Test 2",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61e1538850c7fdb6b702197c"
+  },
+  "fileNames": [
+    "005e51ac9986aa0c62b2d4c410f7db73.png"
+  ],
+  "originalNames": [
+    "image-removebg-preview.png"
+  ],
+  "from": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "to": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "text": "1234",
+  "__v": 0
+}]

@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "61df30c5f19e4cf231d5f135"
+  },
+  "admin": false,
+  "teacher": false,
+  "student": true,
+  "permissions": {
+    "profile": {
+      "avatarChange": true,
+      "nameChange": true,
+      "passwordChange": true,
+      "usernameChange": true
+    }
+  }
+}]
