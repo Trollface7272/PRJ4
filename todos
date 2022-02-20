@@ -2,4 +2,5 @@ Make file input hide next one when no file is selected
 Add confirmation popup to Send Message and Submit Quest
 Add error display to messages when sending fails
 Make sending messages to self impossible
-Move image saving from public to public/images
+Teacher part
+Administration part

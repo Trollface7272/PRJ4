@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "616ff5a6181574a771d50721"
+  },
+  "name": "Test2",
+  "sessions": [],
+  "permissions": {
+    "profile": {
+      "usernameChange": true,
+      "passwordChange": true,
+      "nameChange": true,
+      "avatarChange": true
+    }
+  },
+  "groups": [
+    {
+      "$oid": "61df30c5f19e4cf231d5f135"
+    }
+  ],
+  "coins": 0,
+  "level": 1,
+  "xp": 0,
+  "username": "14532",
+  "password": "1234"
+},{
+  "_id": {
+    "$oid": "61e122fc32d3aa94ac5a3e15"
+  },
+  "name": "Test1",
+  "sessions": [],
+  "permissions": {
+    "profile": {
+      "usernameChange": true,
+      "passwordChange": true,
+      "nameChange": true,
+      "avatarChange": true
+    }
+  },
+  "groups": [
+    {
+      "$oid": "61df30c5f19e4cf231d5f135"
+    }
+  ],
+  "coins": 0,
+  "level": 1,
+  "xp": 0,
+  "username": "Test1",
+  "password": "1234"
+},{
+  "_id": {
+    "$oid": "61e1233932d3aa94ac5a3e16"
+  },
+  "name": "Test3",
+  "sessions": [],
+  "permissions": {
+    "profile": {
+      "usernameChange": true,
+      "passwordChange": true,
+      "nameChange": true,
+      "avatarChange": true
+    }
+  },
+  "groups": [
+    {
+      "$oid": "61df30c5f19e4cf231d5f135"
+    }
+  ],
+  "coins": 0,
+  "level": 1,
+  "xp": 0,
+  "username": "Test3",
+  "password": "1234"
+}]
