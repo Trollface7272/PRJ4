@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { Card } from 'react-bootstrap'
 import { useCookies } from 'react-cookie'
-import { getLocal, PostRequest } from '../shared/functions'
+import { PostRequest } from '../shared/functions'
 import { IShopItem } from '../types/api-shop'
 
 interface param {
@@ -31,7 +31,7 @@ const ShopCard = ({shopItem}: param) => {
             </Card.Body>
             <Card.Footer className="d-flex">
                 <div className="w-50">Coins: {shopItem.cost}</div>
-                <div className="w-50 d-flex justify-content-end"><button ref={ref} onClick={buyHandler} className="btn btn-outline-dark btn-lg px-5">{getLocal("buy")}</button></div>
+                <div className="w-50 d-flex justify-content-end"><button ref={ref} onClick={buyHandler} className="btn btn-outline-dark btn-lg px-5">{"Buy".localize()}</button></div>
             </Card.Footer>
         </Card>
     )

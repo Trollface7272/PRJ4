@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router"
 import useSWR from "swr";
 import Button from "../components/Button";
 import SideNav from "../components/SideNav";
-import { getLocal, PostRequest, readFile, swrFetcher } from "../shared/functions";
+import { PostRequest, readFile, swrFetcher } from "../shared/functions";
 
 
 
@@ -66,7 +66,7 @@ const Quest = () => {
                             <input id="latest" className="fileInput" type="file" onChange={fileInputHandle}/>
                         </Card.Text>
                         <Card.Text className="text-center">
-                            <Button id="submitButton" text={getLocal("submit")} onClick={submitHandle}></Button>
+                            <Button id="submitButton" text={"Submit".localize()} onClick={submitHandle}></Button>
                         </Card.Text>
                     </Card.Body>
                 </Card>

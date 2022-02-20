@@ -12,27 +12,36 @@ const schema = new Schema<IQuest>({
 
 const Model = model<IQuest>("quest", schema)
 
-export const getQuests = async (query: any): Promise<IQuest[]> => {
-    let out: IQuest[] = []
-    for await (const doc of collection().find<IQuest>(query)) {
-        out.push(doc)
+export namespace Quests {
+
+    export const customQuery = async (query: any): Promise<IQuest[]> => {
+        let out: IQuest[] = []
+        for await (const doc of collection().find<IQuest>(query)) {
+            out.push(doc)
+        }
+        return out
     }
-    return out
-}
 
-export const getQuest = async (id: string) => {
-    const data = await collection().findOne<IQuest>(({_id: new Types.ObjectId(id)}))
-    
-    return data
-}
+    export const getById = async (id: string) => {
+        const data = await collection().findOne<IQuest>(({ _id: new Types.ObjectId(id) }))
 
-export const addSubmission = (fileNames: string[], text: string, userId: string, questId: string) => {
-    collection().updateOne({_id: new Types.ObjectId(questId)}, {$push: {submissions: {
-        userId: userId,
-        files: fileNames,
-        text: text,
-        submitedAt: new Date()
-    }}})
+        return data
+    }
+
+    export const addSubmission = (fileNames: string[], originalNames: string[], text: string, userId: string, questId: string) => {
+        collection().updateOne({ _id: new Types.ObjectId(questId) }, {
+            $push: {
+                submissions: {
+                    userId: userId,
+                    files: fileNames,
+                    text: text,
+                    originalNames: originalNames,
+                    submitedAt: new Date()
+                }
+            }
+        })
+    }
+
 }
 
 const collection = () => connection.collection("quests")

@@ -24,22 +24,6 @@ export const GetRequest = (url: string, data: any) => {
     })
 }
 
-let Localization: any = {}
-let LoadedLanguage = ""
-export let loaded = false
-export const loadLocal = async () => {
-    const currentLanguage = Cookies.get("language") || "English"
-    if (LoadedLanguage === currentLanguage) return
-
-    await GetRequest("/api/local/get", {language: currentLanguage}).then(res => res.json()).then(lang => Localization = lang)
-    LoadedLanguage = currentLanguage
-    loaded = true
-    return true
-}
-export const getLocal = (text: string): string => {
-    return Localization[text] || text
-}
-
 export const swrFetcher = (url: string, cookie: string) => PostRequest(url, {session: cookie}).then(res => res.json())//fetch(url, {method: "POST", body: JSON.stringify({session: cookie})}).then(r => r.json())
 
 export const readFile = (file: File) => {

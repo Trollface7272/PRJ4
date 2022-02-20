@@ -1,31 +1,33 @@
-export interface IQuestRequirements {
-    groups: number[]
-    level?: number
-}
+export namespace Quests {
+    export interface Requirements {
+        groups: number[]
+        level?: number
+    }
 
-export interface IQuestRewards {
-    xp?: number
-    coins?: number
-}
+    export interface Rewards {
+        xp?: number
+        coins?: number
+    }
 
-export interface IQuest {
-    _id: string
-    name: string
-    description: string
-    requirements: IQuestRequirements
-    rewards: IQuestRewards
-}
+    export interface Quest {
+        _id: string
+        name: string
+        description: string
+        requirements: Requirements
+        rewards: Rewards
+    }
 
-export const EmptyQuest: IQuest = {
-    _id: "",
-    name: "",
-    description: "",
-    requirements: {
-        groups: [],
-        level: 0
-    },
-    rewards: {
-        coins: 0,
-        xp: 0
+    export const Empty: Quest = {
+        _id: "",
+        name: "",
+        description: "",
+        requirements: {
+            groups: [],
+            level: 0
+        },
+        rewards: {
+            coins: 0,
+            xp: 0
+        }
     }
 }

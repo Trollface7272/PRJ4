@@ -18,58 +18,63 @@ const schema = new Schema<IUser>({
 
 const Model = model<IUser>("User", schema)
 
+export namespace Users {
 
-export const GetUsers = async (): Promise<IUser[]> => {
-    return []
-}
-
-export const isSessionValid = async (session: string): Promise<boolean> => {
-    return await getUserFromSession(session) != null
-}
-
-export const getUserFromSession = async (session: string): Promise<IUser> => {
-    const res = (await collection()?.findOne<IUser>({ sessions: { $all: [session] } }))
-
-    return res || (isDev && emptyUser)
-}
-
-export const addSession = async (id: Types.ObjectId) => {
-    const sessionString = randomBytes(16).toString("hex")
-
-        ; (await collection().updateOne({ _id: id }, { $push: { sessions: sessionString } }))
-
-    return sessionString
-}
-
-export const findUser = async (name: string, password: string) => {
-    password = HashPassword(password)
-    const res = (await collection()?.findOne<IUser>({ username: name, password: password }))
-    if (!res) return
-
-    let session = await addSession(res._id)
-    return session
-}
-
-export const updateCurrency = async (session: string, amount: number) => {
-    collection().updateOne({ sessions: { $all: [session] } }, { $inc: { coins: amount } })
-}
-
-export const changeUsername = (id: Types.ObjectId, newUsername: string) => {
-    collection().updateOne({ _id: id }, { $set: { username: newUsername } })
-}
-export const changeName = (id: Types.ObjectId, newName: string) => {
-    collection().updateOne({ _id: id }, { $set: { name: newName } })
-}
-export const changePassword = (id: Types.ObjectId, newPassword: string) => {
-    collection().updateOne({ _id: id }, { $set: { password: newPassword } })
-}
-export const getAllNames = async () => {
-    const out = []
-    //@ts-ignore
-    for await (const doc of collection().find<IUser>({})) {
-        out.push({_id: doc._id, name: doc.name})
+    export const GetUsers = async (): Promise<IUser[]> => {
+        return []
     }
-    return out
+
+    export const getByUserId = async (id: Types.ObjectId) => {
+        return await collection().findOne<IUser>({ _id: id })
+    }
+
+    export const isSessionValid = async (session: string): Promise<boolean> => {
+        return await getFromSession(session) != null
+    }
+
+    export const getFromSession = async (session: string): Promise<IUser> => {
+        const res = (await collection()?.findOne<IUser>({ sessions: { $all: [session] } }))
+
+        return res || (isDev && emptyUser)
+    }
+
+    export const addSession = async (id: Types.ObjectId) => {
+        const sessionString = randomBytes(16).toString("hex")
+
+            ; (await collection().updateOne({ _id: id }, { $push: { sessions: sessionString } }))
+
+        return sessionString
+    }
+
+    export const getByLogin = async (name: string, password: string) => {
+        password = HashPassword(password)
+        const res = (await collection()?.findOne<IUser>({ username: name, password: password }))
+        if (!res) return
+
+        let session = await addSession(res._id)
+        return session
+    }
+
+    export const updateCurrency = async (session: string, amount: number) => {
+        collection().updateOne({ sessions: { $all: [session] } }, { $inc: { coins: amount } })
+    }
+
+    export const changeUsername = (id: Types.ObjectId, newUsername: string) => {
+        collection().updateOne({ _id: id }, { $set: { username: newUsername } })
+    }
+    export const changeName = (id: Types.ObjectId, newName: string) => {
+        collection().updateOne({ _id: id }, { $set: { name: newName } })
+    }
+    export const changePassword = (id: Types.ObjectId, newPassword: string) => {
+        collection().updateOne({ _id: id }, { $set: { password: newPassword } })
+    }
+    export const getAllNames = async () => {
+        const out = []
+        for await (const doc of collection().find<IUser>({})) {
+            out.push({ _id: doc._id, name: doc.name })
+        }
+        return out
+    }
 }
 
 const collection = () => connection.collection("users")

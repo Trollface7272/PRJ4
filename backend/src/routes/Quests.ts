@@ -4,7 +4,6 @@ import { getUserFromSession } from "@shared/database/Users"
 import { randomBytes } from "crypto"
 import { Request, Response } from "express"
 import { writeFileSync } from "fs"
-import { Types } from "mongoose"
 import { join } from "path"
 import { IQuest } from "src/types/Database"
 
@@ -54,14 +53,16 @@ export const submitQuest = async (req: Request, res: Response) => {
     
 
     const fileNames = []
+    const originalNames = []
     for (const file of files) {
         const fileName = randomBytes(16).toString("hex") + "." + file.name.split(".").at(-1)
         fileNames.push(fileName)
+        originalNames.push(file.name)
         writeFileSync(join(__dirname, "..", "public", "files", fileName),
             Buffer.from(file.data.split(",")[1], "base64"))
     }
     
-    addSubmission(fileNames, text, session, id)
+    addSubmission(fileNames, originalNames, text, session, id)
     
     res.send()
 }

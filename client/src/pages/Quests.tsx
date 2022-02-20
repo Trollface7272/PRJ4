@@ -4,13 +4,13 @@ import useSWR from "swr"
 import QuestCard from "../components/QuestCard"
 import SideNav from "../components/SideNav"
 import { swrFetcher } from "../shared/functions"
-import { IQuest } from "../types/api-quests"
+import { Quest } from "../types/api-quests"
 
 const Quests = () => {
     const [cookies] = useCookies(["session"])
     const { data } = useSWR(["/api/quests/load", cookies.session], swrFetcher)
     const history = useHistory()
-    let quests: IQuest[]
+    let quests: Quest[]
     if (data) quests = data
     else quests = []
 

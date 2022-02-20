@@ -1,6 +1,6 @@
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import path from 'path';
+import path, { join } from 'path';
 import helmet from 'helmet';
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -19,8 +19,8 @@ const { BAD_REQUEST } = StatusCodes;
  *                              Set basic express settings
  ***********************************************************************************/
 
-app.use(express.json({limit: process.env.UPLOAD_LIMIT}));
-app.use(express.urlencoded({extended: true, limit: process.env.UPLOAD_LIMIT}));
+app.use(express.json({ limit: process.env.UPLOAD_LIMIT }));
+app.use(express.urlencoded({ extended: true, limit: process.env.UPLOAD_LIMIT }));
 app.use(cookieParser());
 
 // Show routes called in console during development
@@ -35,6 +35,12 @@ if (process.env.NODE_ENV === 'production') {
 
 // Add APIs
 app.use('/api', BaseRouter);
+
+//Fix for express routing
+app.get("*", (req: Request, res: Response, next: NextFunction) => {
+    if (req.path.startsWith("/api/") || req.path.includes(".")) return next()
+    res.sendFile(join(__dirname, "public", "index.html"))
+})
 
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

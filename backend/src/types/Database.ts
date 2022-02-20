@@ -90,5 +90,6 @@ export interface IMessage {
     from: Types.ObjectId,
     to: Types.ObjectId,
     text: string,
-    fileNames: string[]
+    fileNames: string[],
+    originalNames: string[]
 }

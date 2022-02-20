@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { getAvailibleLocalization, getLocalization } from './Localizations'
-import { onSubmit } from './Messages'
+import { getMessage, loadMessages, onSubmit } from './Messages'
+import { getNewNotifications } from './Notifications'
 import { getAllVisibleQuests, getQuest, submitQuest } from './Quests'
 import { buyItem, getAllVisibleItems } from './Shop'
 import { getAllUsers, isSessionValid, getUser, login, changeUsername, changeName, changePassword, getPermissions, getNames } from './Users'
@@ -18,11 +18,6 @@ userRouter.post('/changename', changeName)
 userRouter.post('/changepassword', changePassword)
 userRouter.post('/getnames', getNames)
 
-// Localization-route
-const localizationRouter = Router()
-localizationRouter.get("/get", getLocalization)
-localizationRouter.post("/list", getAvailibleLocalization)
-
 // Quests-route
 const questsRouter = Router()
 questsRouter.post("/load", getAllVisibleQuests)
@@ -37,13 +32,18 @@ shopRouter.post("/buy", buyItem)
 // Shop-route
 const messagesRouter = Router()
 messagesRouter.post("/send", onSubmit)
+messagesRouter.post("/load", loadMessages)
+messagesRouter.post("/message/:id", getMessage)
 
+// Notifications-route
+const notificationsRouter = Router()
+notificationsRouter.post("/all", getNewNotifications)
 
 // Export the base-router
 const baseRouter = Router()
 baseRouter.use('/users', userRouter)
-baseRouter.use('/local', localizationRouter)
 baseRouter.use("/quests", questsRouter)
 baseRouter.use("/shop", shopRouter)
+baseRouter.use("/notifications", notificationsRouter)
 baseRouter.use("/messages", messagesRouter)
 export default baseRouter

@@ -1,14 +1,13 @@
 import { Image, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
-import { getLocal, loadLocal, swrFetcher } from '../shared/functions'
+import { swrFetcher } from '../shared/functions'
 import { logoUrl } from '../shared/Globals'
 import { EmptyUser, User } from '../types/api-users'
 import useSWR from "swr"
 import { useCookies } from 'react-cookie'
 
 const SideBar = () => {
-    useSWR("local", loadLocal)
     const [cookies, , removeCookie] = useCookies(["session"])
     const { data, error } = useSWR(["/api/users/user", cookies.session], swrFetcher)
     let profile: User
@@ -22,32 +21,32 @@ const SideBar = () => {
         <Nav className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark vh-100" style={{width: "280px"}}>
                 <Link to="/dashboard" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     {/*<Image src={logoUrl} width="32" height="32" className="bi me-2" />*/}
-                    <span className="fs-4" style={{textDecoration: "none"}}>{getLocal("app-name")}</span>
+                    <span className="fs-4" style={{textDecoration: "none"}}>{"App Name".localize()}</span>
                 </Link>
                 <hr />
                 <ul className="nav nav-pills flex-column mb-auto">
                     <li>
                         <Link to="/dashboard" className={LinkClasses + (path.pathname === "/dashboard" ? "active" : "")}>
                             <Image src="/dashboard.svg" width="32px" className="bi me-2 fill-white" />
-                            <span>{getLocal("dashboard")}</span>
+                            <span>{"Dashboard".localize()}</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/quests" className={LinkClasses + (path.pathname === "/quests" ? "active" : "")}>
                             <Image src="/quests.svg" width="32px" className="bi me-2 fill-white" />
-                            <span>{getLocal("quests")}</span>
+                            <span>{"Quests".localize()}</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/shop" className={LinkClasses + (path.pathname === "/shop" ? "active" : "")}>
                             <Image src="/shop.svg" width="32px" className="bi me-2 fill-white" />
-                            <span>{getLocal("shop")}</span>
+                            <span>{"Shop".localize()}</span>
                         </Link>
                     </li>
                     <li>
                         <Link to="/messages" className={LinkClasses + (path.pathname === "/messages" ? "active" : "")}>
                             <Image src="/messages.svg" width="32px" className="bi me-2 fill-white" />
-                            <span>{getLocal("messages")}</span>
+                            <span>{"Messages".localize()}</span>
                         </Link>
                     </li>
                 </ul>

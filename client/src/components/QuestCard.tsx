@@ -1,9 +1,8 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import { IQuest } from '../types/api-quests'
 
 interface param {
-    quest: IQuest
+    quest: Quest
 }
 
 const QuestCard = ({quest}: param) => {

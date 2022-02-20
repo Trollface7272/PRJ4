@@ -4,7 +4,7 @@ import { useHistory } from "react-router"
 import useSWR from "swr"
 import Button from "../components/Button"
 import SideNav from "../components/SideNav"
-import { getLocal, PostRequest, readFile, swrFetcher } from "../shared/functions"
+import { PostRequest, readFile, swrFetcher } from "../shared/functions"
 
 
 const SendMessage = () => {
@@ -13,11 +13,12 @@ const SendMessage = () => {
     const {data:namesRaw} = useSWR(["/api/users/getnames", cookies.session], swrFetcher)
     const names = namesRaw ? namesRaw : []
     const fileInputHandle = () => {
-        const input = document.getElementById("latest")
+        const input = document.getElementById("latest") as HTMLInputElement
         const form = document.getElementById("form")
+        if (!input || !form) return
 
-        input!.onchange = () => {}
-        input!.id = ""
+        input.onchange = () => {}
+        input.id = ""
         const newInput = document.createElement("input")
         newInput.id = "latest"
         newInput.className = "fileInput"
@@ -59,7 +60,7 @@ const SendMessage = () => {
             <SideNav />
             <div className="d-flex justify-content-center align-items-center w-100 h-100" >
                 <Card className="text-white bg-dark" style={{width: "60%", height: "75%"}}>
-                    <Card.Header><Card.Title className="text-center">{getLocal("new-message-title")}</Card.Title></Card.Header>
+                    <Card.Header><Card.Title className="text-center">{"New Message".localize()}</Card.Title></Card.Header>
                     <Card.Body>
                         <Card.Text>
                             <select style={{width: "100%"}} id="sendToSelect">
@@ -71,7 +72,7 @@ const SendMessage = () => {
                             <input id="latest" className="fileInput" type="file" onChange={fileInputHandle}/>
                         </Card.Text>
                         <Card.Text className="text-center">
-                            <Button id="submitButton" text={getLocal("submit")} onClick={submitHandle}></Button>
+                            <Button id="submitButton" text={"Submit".localize()} onClick={submitHandle}></Button>
                         </Card.Text>
                     </Card.Body>
                 </Card>

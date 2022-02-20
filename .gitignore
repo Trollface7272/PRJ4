@@ -1,3 +1,7 @@
 node_modules
 backend/dist
 client/build
+backend/src/public/*
+!backend/src/public/files
+backend/src/public/files/*
+dist**
