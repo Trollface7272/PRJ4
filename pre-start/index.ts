@@ -1,0 +1,3 @@
+import "./prototype"
+
+export default {}

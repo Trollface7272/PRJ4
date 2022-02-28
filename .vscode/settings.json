@@ -1,0 +1,10 @@
+{
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/yarn.lock": true
+  }
+}
