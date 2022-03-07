@@ -3,7 +3,6 @@ import ShopCard from "../components/ShopCard"
 import { ClientShopTypes } from "@database/types/shop"
 import { ClientUserTypes } from "@database/types/users"
 import { NextPageContext } from "next"
-import { Connect } from "@database/index"
 import { Cookie } from "utils/cookies"
 import { getShopItems, getUserData } from "utils/serverUtils"
 
@@ -26,7 +25,6 @@ const Shop = ({items, user}: props) => {
 }
 
 export async function getServerSideProps({ req, res }: NextPageContext) {
-    await Connect()
     if (!req || !res) { console.log("weird stuff in login, getServerSideProps"); return { props: {} } }
     const cookies = Cookie.parse(req)
     if (!cookies.session) return { props: {} }

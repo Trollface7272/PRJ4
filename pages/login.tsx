@@ -4,7 +4,7 @@ import { NextPageContext } from "next"
 import { Cookie } from "../utils/cookies"
 import { ENDPOINTS } from "../utils/requests"
 import styles from '../styles/Login.module.css'
-import { Connect, Users } from "@database/index"
+import { Users } from "@database/index"
 import axios from "axios"
 import { useRouter } from "next/router"
 
@@ -77,7 +77,6 @@ const LoginForm = () => {
 }
 
 export async function getServerSideProps({ req, res }: NextPageContext) {
-    await Connect()
     if (!req || !res) { console.log("weird stuff in login, getServerSideProps"); return { props: {} } }
     const cookies = Cookie.parse(req)
     if (!cookies.session) return { props: {} }

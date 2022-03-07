@@ -1,4 +1,3 @@
-import { Connect } from "@database/index"
 import { ClientMessageTypes } from "@database/types/messages"
 import { ClientUserTypes } from "@database/types/users"
 import MessageCard from "components/MessageCard"
@@ -20,7 +19,7 @@ const Messages = ({user, messages}: props) => {
         <div className="d-flex">
             <SideNav user={user} />
             <div className="content flex-shrink-0 p-3 d-inline-block" style={{ overflowY: "scroll" }}>
-                <div className="mx-2 my-1 float-start" onClick={() => router.push("/sendmessage")}>
+                <div className="mx-2 my-1 float-start" onClick={() => router.push("/messages/send")}>
                     <div className="card">
                         <div className="card-header"><div className="text-center">{"Send Message".localize()}</div></div>
                     </div>
@@ -40,7 +39,6 @@ const Messages = ({user, messages}: props) => {
 }
 
 export async function getServerSideProps({ req, res }: NextPageContext) {
-    await Connect()
     if (!req || !res) { console.log("weird stuff in login, getServerSideProps"); return { props: {} } }
     const cookies = Cookie.parse(req)
     if (!cookies.session) return { props: {} }

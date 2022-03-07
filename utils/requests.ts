@@ -8,8 +8,8 @@ export const PostRequest = async (url: string, body: body): Promise<AxiosRespons
 }
 
 export enum ENDPOINTS {
-    LOGIN="/api/users/login",
-    LOGOUT="/api/users/logout",
-    IS_SESSION_VALID="/api/users/session",
-
+    LOGIN = "/api/users/login",
+    LOGOUT = "/api/users/logout",
+    IS_SESSION_VALID = "/api/users/session",
+    SEND_MESSAGE = `/api/messages/send`
 }

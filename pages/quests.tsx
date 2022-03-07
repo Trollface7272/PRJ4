@@ -1,4 +1,3 @@
-import { Connect } from "@database/index"
 import { ClientUserTypes } from "@database/types/users"
 import { NextPageContext } from "next"
 import { useRouter } from "next/router"
@@ -27,7 +26,6 @@ const Quests = ({quests, user}: props) => {
 }
 
 export async function getServerSideProps({ req, res }: NextPageContext) {
-    await Connect()
     if (!req || !res) { console.log("weird stuff in login, getServerSideProps"); return { props: {} } }
     const cookies = Cookie.parse(req)
     if (!cookies.session) return { props: {} }

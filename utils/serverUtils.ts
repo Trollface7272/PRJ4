@@ -1,12 +1,10 @@
-import Messages from "@database/messages";
 import { Types } from "mongoose"
-import Shop from "@database/shop";
 import { ServerMessageTypes, ClientMessageTypes } from "@database/types/messages";
 import { ClientQuestTypes, ServerQuestTypes } from "@database/types/quests";
 import { ClientShopTypes, ServerShopTypes } from "@database/types/shop";
 import { ServerUserTypes, ClientUserTypes } from "@database/types/users";
 import { ServerResponse } from "http";
-import { Quests, Users } from "./database";
+import { Quests, Users, Messages, Shop } from "./database";
 
 export const validateSession = async (session: string, res: ServerResponse) => {
     if (!await Users.isSessionValid(session)) {
@@ -29,6 +27,13 @@ export const getUserData = async (session: string): Promise<[ServerUserTypes.Use
         xp: backendUser.xp
     }
     return [backendUser, frontendUser]
+}
+
+export const getUserNames = async (): Promise<[{id: Types.ObjectId, name: string}[], {id: string, name: string}[]]> => {
+    const backendNames = await Users.getUserNames()
+    const frontendNames = backendNames.map(el => ({id: el.id.toString(), name: el.name}))
+
+    return [backendNames, frontendNames]
 }
 
 export const getQuests = async (user: ServerUserTypes.User): Promise<[ServerQuestTypes.Quest[], ClientQuestTypes.Quest[]]> => {
@@ -86,4 +91,26 @@ export const getMessages = async (user: ServerUserTypes.User): Promise<[ServerMe
         }
     }))
     return [backendMessages, frontendMessages]
+}
+
+export const getMessage = async (user: ServerUserTypes.User, id: string): Promise<[ServerMessageTypes.Message, ClientMessageTypes.Message]> => {
+    const backendMessage = await Messages.getMessageByIdWithUser(user, new Types.ObjectId(id))
+    if (!backendMessage) throw { message: "Not found" }
+    const frontendMessage: ClientMessageTypes.Message = {
+        _id: backendMessage._id.toString(),
+        text: backendMessage.text,
+        fileNames: backendMessage.fileNames,
+        originalNames: backendMessage.originalNames,
+        to: {
+            isMe: backendMessage.to.isMe,
+            _id: backendMessage.to._id.toString(),
+            name: backendMessage.to.name
+        },
+        from: {
+            isMe: backendMessage.from.isMe,
+            _id: backendMessage.from._id.toString(),
+            name: backendMessage.from.name
+        }
+    }
+    return [backendMessage, frontendMessage]
 }
