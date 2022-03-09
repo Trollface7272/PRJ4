@@ -14,8 +14,7 @@ interface params {
 const Message = ({ user, id, message }: params) => {
     const images: { name: string, originalName: string }[] = []
     const rest: { name: string, originalName: string }[] = []
-    console.log(message);
-    
+
     message.fileNames.forEach((file, index) => {
         if (file.endsWith(".jpg") || file.endsWith(".png")) images.push({ name: file, originalName: message.originalNames[index] })
         else rest.push({ name: file, originalName: message.originalNames[index] })

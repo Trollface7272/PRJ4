@@ -11,6 +11,7 @@ export namespace ServerQuestTypes {
     export interface QuestSubmissions {
         userId: Types.ObjectId
         files: string[]
+        originalNames: string[]
         text: string
         submitedAt: Date
     }
@@ -30,10 +31,11 @@ export namespace ClientQuestTypes {
         coins: number
     }
     export interface QuestSubmissions {
-        userId: Types.ObjectId
+        userId: string
         files: string[]
+        originalNames: string[]
         text: string
-        submitedAt: Date
+        submitedAt: string
     }
     export interface Quest {
         _id: string

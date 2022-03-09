@@ -28,8 +28,6 @@ const LoginForm = () => {
         const username = (document.getElementById("usernameInput") as HTMLInputElement).value
         const password = (document.getElementById("passwordInput") as HTMLInputElement).value
 
-        console.log(ENDPOINTS.LOGIN, { username, password });
-
         const req = axios.post("/api/users/login", { username, password })
         console.log(req);
         const raw = await req

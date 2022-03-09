@@ -1,3 +1,5 @@
+export const imageFormats = ["apng", "avif", "gif", "jpg", "jpeg", "jfif", "pjpeg", "pjp", "png", "svg", "webp"]
+
 export const readFile = (file: File) => {
     return new Promise((resolve, reject) => {
         var reader = new FileReader()
@@ -7,4 +9,8 @@ export const readFile = (file: File) => {
         reader.onerror = reject
         reader.readAsDataURL(file)
     })
+}
+
+export const getStaticFilePath = (id: string, fileName: string) => {
+    return `/userdata/${id}/files/${fileName}`
 }

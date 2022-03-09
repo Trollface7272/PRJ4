@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto"
 import { connection, Types } from "mongoose"
-import { Connect } from "."
+import { Connect, Groups } from "."
 import { ServerUserTypes } from "./types/users"
 
 class Users {
@@ -15,11 +15,21 @@ class Users {
     }
     public static async fromSession(session: string) {
         const cluster = await this.userCluster()
-        return cluster.findOne<ServerUserTypes.User>({ sessions: { $all: [session] } })
+        const user = await cluster.findOne<ServerUserTypes.User>({ sessions: { $all: [session] } })
+        if (!user) return
+        const permissions = await Groups.getPermissions(user)
+        if (!permissions) return
+        user.permissions = permissions
+        return user
     }
     public static async fromId(id: Types.ObjectId) {
         const cluster = await this.userCluster()
-        return cluster.findOne({ _id: id })
+        const user = await cluster.findOne<ServerUserTypes.User>({ _id: id })
+        if (!user) return
+        const permissions = await Groups.getPermissions(user)
+        if (!permissions) return
+        user.permissions = permissions
+        return user
     }
     public static async login(username: string, password: string) {
         const cluster = await this.userCluster()
@@ -51,6 +61,25 @@ class Users {
         while (user = await cursor.next()) out.push({id: user._id, name: user.name})
         return out
     }
+    public static async validatePassword(session: string, password: string) {
+        const cluster = await this.userCluster()
+        const user = await cluster.findOne<ServerUserTypes.User>({ sessions: { $all: [session] } })
+        if (!user) return false
+        if (user.password !== this.hashPassword(password)) return false
+        return true
+    }
+    public static async changeName(id: Types.ObjectId, newName: string) {
+        const cluster = await this.userCluster()
+        return cluster.updateOne({_id: id}, {name: newName})
+    }
+    public static async changeUsername(id: Types.ObjectId, newUsername: string) {
+        const cluster = await this.userCluster()
+        return cluster.updateOne({_id: id}, {username: newUsername})
+    }
+    public static async changePassword(id: Types.ObjectId, newPassword: string) {
+        const cluster = await this.userCluster()
+        return cluster.updateOne({_id: id}, {password: this.hashPassword(newPassword)})
+    }  
 }
 
 export default Users

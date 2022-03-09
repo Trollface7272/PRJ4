@@ -35,7 +35,7 @@ async function handler(
 
     const fileNames = []
     const originalNames = []
-    const publicPath = join(__dirname, "..", "..", "..", "..", "..", "public", "users")
+    const publicPath = join(__dirname, "..", "..", "..", "..", "..", "public", "userdata")
     const userData = join(publicPath, user._id.toString(), "files")
     if (!existsSync(userData)) {
         mkdirSync(join(publicPath, user._id.toString()))

@@ -11,5 +11,9 @@ export enum ENDPOINTS {
     LOGIN = "/api/users/login",
     LOGOUT = "/api/users/logout",
     IS_SESSION_VALID = "/api/users/session",
-    SEND_MESSAGE = `/api/messages/send`
+    SEND_MESSAGE = `/api/messages/send`,
+    GET_USER = `/api/users/lookup`,
+    CHANGE_USERNAME =  `/api/users/changeusername`,
+    CHANGE_NAME = `/api/users/changename`,
+    CHANGE_PASSWORD = `/api/users/changepassword`
 }
