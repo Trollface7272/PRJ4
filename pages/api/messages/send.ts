@@ -35,17 +35,15 @@ async function handler(
 
     const fileNames = []
     const originalNames = []
-    const publicPath = join(__dirname, "..", "..", "..", "..", "..", "public", "userdata")
-    const userData = join(publicPath, user._id.toString(), "files")
-    if (!existsSync(userData)) {
-        mkdirSync(join(publicPath, user._id.toString()))
-        mkdirSync(userData)
-    }
+    const dataFolder = join(process.env.PUBLIC_FOLDER_PATH as string, "users", user.name, "messages")
+    if (!existsSync(dataFolder))
+        mkdirSync(dataFolder, { recursive: true })
+
     for (const file of files) {
         const fileName = `${randomBytes(16).toString("hex")}.${file.name.split(".").at(-1)}`
         fileNames.push(fileName)
         originalNames.push(file.name)
-        writeFileSync(join(userData, fileName),
+        writeFileSync(join(dataFolder, fileName),
             Buffer.from(file.data.split(",")[1], "base64"))
     }
 

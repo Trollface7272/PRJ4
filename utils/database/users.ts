@@ -79,7 +79,17 @@ class Users {
     public static async changePassword(id: Types.ObjectId, newPassword: string) {
         const cluster = await this.userCluster()
         return cluster.updateOne({_id: id}, {password: this.hashPassword(newPassword)})
-    }  
+    }
+    public static async getByGroup(id: Types.ObjectId): Promise<ServerUserTypes.User[]> {
+        const cluster = await this.userCluster()
+        const cursor = cluster.find<ServerUserTypes.User>({groups: { $in: [id]}})
+        const users = []
+
+        let next
+        while (next = await cursor.next())
+            users.push(next)
+        return users
+    } 
 }
 
 export default Users

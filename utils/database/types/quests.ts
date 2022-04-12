@@ -9,6 +9,7 @@ export namespace ServerQuestTypes {
         coins: number
     }
     export interface QuestSubmissions {
+        type: "awaiting" | "approved" | "returned" | "failed"
         userId: Types.ObjectId
         files: string[]
         originalNames: string[]
@@ -31,6 +32,7 @@ export namespace ClientQuestTypes {
         coins: number
     }
     export interface QuestSubmissions {
+        type: "awaiting" | "approved" | "returned" | "failed"
         userId: string
         files: string[]
         originalNames: string[]

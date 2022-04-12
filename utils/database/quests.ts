@@ -4,16 +4,16 @@ import { ServerQuestTypes } from "./types/quests"
 import { ServerUserTypes } from "./types/users"
 
 class Quests {
-    private static questCluster = async () => {await Connect(); return connection.collection("quests")}
+    private static questCluster = async () => { await Connect(); return connection.collection("quests") }
     public static async getAvailibleQuests(user: ServerUserTypes.User) {
         const cluster = await this.questCluster()
         const cursor = cluster.find<ServerQuestTypes.Quest>({ "requirements.groups": { $in: [user.groups] }, "requirements.level": { $lte: user.level } })
         const quests: ServerQuestTypes.Quest[] = []
         let next
-        while(next = await cursor.next()) 
+        while (next = await cursor.next())
             quests.push(next)
-        
-            
+
+
         return quests
     }
     public static async getQuestByIdWithUser(user: ServerUserTypes.User, id: Types.ObjectId) {
@@ -33,6 +33,7 @@ class Quests {
         cluster.updateOne({ _id: id }, {
             $push: {
                 submissions: {
+                    type: "awaiting",
                     userId: userId,
                     files: files,
                     originalNames: originalFiles,
@@ -41,6 +42,16 @@ class Quests {
                 }
             }
         })
+    }
+    public static async getByGroup(id: Types.ObjectId) {
+        const cluster = await this.questCluster()
+        const cursor = cluster.find<ServerQuestTypes.Quest>({"requirements.groups": {$all: [id]}})
+
+        const quests = []
+        let next
+        while (next = await cursor.next())
+            quests.push(next)
+        return quests
     }
 }
 

@@ -30,3 +30,25 @@ background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 
   border-left: solid var(--bs-gray-700) 1px;
   flex: 1;
 }
+
+.td-hidden, .td-hidden * {
+  visibility: hidden!important;
+  width: 0!important;
+  height: 0!important;
+  max-width: 0!important;
+  max-height: 0!important;
+  overflow: hidden!important;
+  font-size: 0!important;
+  line-height: 0!important;
+  padding: 0!important;
+  margin: 0!important;
+  border: none!important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.no-border {
+  border: none!important;
+}

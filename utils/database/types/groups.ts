@@ -12,6 +12,7 @@ export namespace ServerGroupTypes {
     }
     export interface Group {
         _id: Types.ObjectId
+        name: string
         admin: boolean
         teacher: boolean
         student: boolean
@@ -33,6 +34,7 @@ export namespace ClientGroupTypes {
     }
     export interface Group {
         _id: string
+        name: string
         admin: boolean
         teacher: boolean
         student: boolean

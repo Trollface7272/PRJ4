@@ -1,3 +1,7 @@
 #select {
     padding: 5%;
 }
+.table > tbody > tr > td {
+    border-bottom: none;
+    border-top: 1px grey solid;
+}

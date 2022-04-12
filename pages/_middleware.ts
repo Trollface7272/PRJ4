@@ -1,6 +1,8 @@
 import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/server"
+import { logger } from "utils/logger"
 import { ENDPOINTS } from "../utils/requests"
 const Validate: NextMiddleware = async (req: NextRequest, ev: NextFetchEvent) => {
+    logger.log(req.url)
     if (req.url.includes("/api")) return NextResponse.next()
     const response = (await (await fetch(new URL(ENDPOINTS.IS_SESSION_VALID, req.url).toString(), {headers: req.headers, method: "POST"})).json())//await Users.isSessionValid(session)
     const isValid = response.isValid
