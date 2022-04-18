@@ -18,5 +18,5 @@ export enum ENDPOINTS {
     CHANGE_PASSWORD = `/api/users/changepassword`,
     QUESTS_BY_GROUP = `/api/quests/groups/{id}`,
     USERS_BY_GROUP = `/api/users/groups/{id}`,
-    SUBMIT_QUEST_GRADING = `/api/quests/`
+    GRADE_QUEST_SUBMISSION = `/api/quests/grade/{quest}/{user}`,
 }

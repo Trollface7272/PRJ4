@@ -32,7 +32,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             originalNames: sm.originalNames,
             submitedAt: sm.submitedAt.toString(),
             text: sm.text,
-            userId: sm.userId.toString()
+            userId: sm.userId.toString(),
+            type: sm.type
         }))
     }))
 

@@ -104,27 +104,36 @@ const ListItem = ({ user, quest, index: i }: { user: ClientUserTypes.User, quest
             <td>0/100</td>
             <td>{state}</td>
         </tr>
-        <SubmissionDisplay submission={submission} user={user} index={i} />
+        <SubmissionDisplay submission={submission} user={user} index={i} questId={quest._id} />
     </>)
 }
 
-const SubmissionDisplay = ({ submission, user, index: i }: {submission?: ClientQuestTypes.QuestSubmissions, user: ClientUserTypes.User, index: number}) => {
+const SubmissionDisplay = ({ submission, user, index: i, questId }: { submission?: ClientQuestTypes.QuestSubmissions, user: ClientUserTypes.User, index: number, questId: string }) => {
     if (!submission) return (<></>)
 
     const onAccept = () => {
-        ENDPOINTS
+        submit({ action: "accept" })
     }
-    const onDeny = () => {}
-    const onReturn = () => {}
+    const onDeny = () => {
+        submit({ action: "deny" })
+    }
+    const onReturn = () => {
+        submit({ action: "return" })
+    }
+
+    const submit = async (data: any) => {
+        const url = ENDPOINTS.GRADE_QUEST_SUBMISSION.replace("{quest}", questId).replace("{user}", submission.userId)
+        const resp = await axios.post(url, data)
+    }
 
     return (
         <tr className="td-hidden no-border" key={user._id + i}>
             <td colSpan={4} className="no-border">
                 <div>{submission.text}</div>
                 <div className="text-center">
-                    <button className="btn btn-success">{"Accept".localize()}</button>
-                    <button className="btn btn-danger ms-1">{"Deny".localize()}</button>
-                    <button className="btn btn-warning ms-1">{"Return".localize()}</button>
+                    <button className="btn btn-success" onClick={onAccept}>{"Accept".localize()}</button>
+                    <button className="btn btn-danger ms-1" onClick={onDeny}>{"Deny".localize()}</button>
+                    <button className="btn btn-warning ms-1" onClick={onReturn}>{"Return".localize()}</button>
                 </div>
             </td>
         </tr>
