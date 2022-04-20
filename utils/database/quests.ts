@@ -27,16 +27,16 @@ class Quests {
         return quest
     }
     public static async addSubmission(
-        id: Types.ObjectId, userId: Types.ObjectId, files: string[], originalFiles: string[], text: string
+        id: Types.ObjectId, userId: Types.ObjectId, files: string[], text: string
     ) {
         const cluster = await this.questCluster()
+        if (await cluster.findOne({ _id: id, "submissions.userId": new Types.ObjectId(userId) })) return console.log("Already has submitted")
         cluster.updateOne({ _id: id }, {
             $push: {
                 submissions: {
-                    type: "awaiting",
+                    type: "submitted",
                     userId: userId,
                     files: files,
-                    originalNames: originalFiles,
                     text: text,
                     submitedAt: new Date()
                 }
@@ -52,6 +52,17 @@ class Quests {
         while (next = await cursor.next())
             quests.push(next)
         return quests
+    }
+    public static async gradeSubmission(
+        questId: Types.ObjectId, userId: Types.ObjectId, type: "graded" | "returned" | "failed", points: number=0
+    ) {
+        const cluster = await this.questCluster()
+        cluster.updateOne({ _id: questId, "submissions.userId": userId }, {
+            $set: {
+                "submissions.$.type": type,
+                "submissions.$.points": points
+            }
+        })
     }
 }
 

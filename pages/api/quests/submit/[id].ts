@@ -39,19 +39,19 @@ async function handler(
     const text = req.body.text
     const files = req.body.files
     const fileNames = []
-    const originalNames = []
-    const dataPath = join(process.env.PUBLIC_FOLDER_PATH as string, "quests", quest.name + `(${quest._id.toString()})`, user.name + `(${user._id})`)
+    const publicPath = join("quests", quest.name + `(${quest._id.toString()})`, user.name + `(${user._id})`)
+    const dataPath = join(process.env.PUBLIC_FOLDER_PATH as string, publicPath)
     if (!existsSync(dataPath))
         mkdirSync(dataPath, { recursive: true })
 
     for (const file of files) {
-        const fileName = `${randomBytes(16).toString("hex")}.${file.name.split(".").at(-1)}`
-        fileNames.push(fileName)
-        originalNames.push(file.name)
+        const fileName = (file.name as string).replaceAll("/", "")
+        fileNames.push(join(publicPath, fileName))
         writeFileSync(join(dataPath, fileName),
             Buffer.from(file.data.split(",")[1], "base64"))
     }
-    await Quests.addSubmission(new Types.ObjectId(id), user._id, fileNames, originalNames, text)
+    
+    await Quests.addSubmission(new Types.ObjectId(id), user._id, fileNames, text)
 
     return res.status(200).send({ success: true })
 }

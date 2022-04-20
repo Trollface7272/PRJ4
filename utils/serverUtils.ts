@@ -43,7 +43,15 @@ export const getQuests = async (user: ServerUserTypes.User): Promise<[ServerQues
         _id: quest._id.toString(),
         description: quest.description,
         name: quest.name,
-        rewards: quest.rewards
+        rewards: quest.rewards,
+        submissions: quest.submissions?.map(submission => ({
+            files: submission.files,
+            submitedAt: submission.submitedAt.toString(),
+            text: submission.text,
+            userId: submission.userId.toString(),
+            type: submission.type,
+            points: submission.points || 0
+        })) || null
     }))
     return [backendQuests, frontendQuests]
 }
@@ -56,10 +64,9 @@ export const getQuest = async (user: ServerUserTypes.User, id: string): Promise<
         description: backendQuest.description,
         name: backendQuest.name,
         rewards: backendQuest.rewards,
-        submissions: backendQuest.submissions.map(el => ({
+        submissions: backendQuest.submissions?.map(el => ({
             userId: el.userId.toString(),
             files: el.files,
-            originalNames: el.originalNames || el.files, //TODO: probably remove this
             text: el.text,
             submitedAt: el.submitedAt.toString()
         } as ClientQuestTypes.QuestSubmissions))

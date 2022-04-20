@@ -10,7 +10,3 @@ export const readFile = (file: File) => {
         reader.readAsDataURL(file)
     })
 }
-
-export const getStaticFilePath = (id: string, fileName: string) => {
-    return `/userdata/${id}/files/${fileName}`
-}

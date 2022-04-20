@@ -29,11 +29,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         rewards: el.rewards,
         submissions: el.submissions?.map<ClientQuestTypes.QuestSubmissions>(sm => ({
             files: sm.files,
-            originalNames: sm.originalNames,
             submitedAt: sm.submitedAt.toString(),
             text: sm.text,
             userId: sm.userId.toString(),
-            type: sm.type
+            type: sm.type,
+            points: sm.points
         }))
     }))
 

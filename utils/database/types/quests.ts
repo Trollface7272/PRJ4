@@ -9,12 +9,12 @@ export namespace ServerQuestTypes {
         coins: number
     }
     export interface QuestSubmissions {
-        type: "awaiting" | "approved" | "returned" | "failed"
+        type: "graded" | "returned" | "failed" | "submitted" | "not-submitted"
         userId: Types.ObjectId
         files: string[]
-        originalNames: string[]
         text: string
         submitedAt: Date
+        points?: number
     }
     export interface Quest {
         _id: Types.ObjectId
@@ -32,12 +32,12 @@ export namespace ClientQuestTypes {
         coins: number
     }
     export interface QuestSubmissions {
-        type: "awaiting" | "approved" | "returned" | "failed"
+        type: "graded" | "returned" | "failed" | "submitted" | "not-submitted"
         userId: string
         files: string[]
-        originalNames: string[]
         text: string
         submitedAt: string
+        points?: number
     }
     export interface Quest {
         _id: string
