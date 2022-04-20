@@ -13,7 +13,6 @@ import React, { Dispatch, MouseEventHandler, SetStateAction, useEffect, useState
 import { ENDPOINTS } from "utils/requests"
 import axios from "axios"
 import Link from "next/link"
-import { randomBytes } from "crypto"
 import { readFile } from "utils/clientUtils"
 
 interface baseProps {
@@ -28,8 +27,6 @@ interface teacherProps extends baseProps {
 }
 
 const Quests = (props: studentProps | teacherProps) => {
-
-
     if (props.user.permissions.teacher || props.user.permissions.admin) return TeacherView(props as teacherProps)
     else return StudentView(props as studentProps)
 

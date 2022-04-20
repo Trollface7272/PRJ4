@@ -16,7 +16,7 @@ export namespace ServerShopTypes {
 
 export namespace ClientShopTypes {
     export interface Requirements {
-        groups: Types.ObjectId[]
+        groups: string[]
         level: number
     }
     export interface Item {
