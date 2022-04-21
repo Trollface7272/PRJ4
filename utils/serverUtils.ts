@@ -79,9 +79,14 @@ export const getShopItems = async (user: ServerUserTypes.User): Promise<[ServerS
     const frontendItems: ClientShopTypes.Item[] = backendItems.map(item => ({
         _id: item._id.toString(),
         description: item.description,
+        requirements: {
+            groups: item.requirements.groups.map(e => e.toString()),
+            level: item.requirements.level
+        },
+        purchases: [],
         name: item.name,
         cost: item.cost,
-        stock: item.cost
+        stock: item.stock
     }))
     return [backendItems, frontendItems]
 }
@@ -127,4 +132,9 @@ export const getMessage = async (user: ServerUserTypes.User, id: string): Promis
         }
     }
     return [backendMessage, frontendMessage]
+}
+
+export const calculateLevel = (xp: number) => {
+    const level = Math.floor(xp / (250 * 1.5))
+    return level
 }

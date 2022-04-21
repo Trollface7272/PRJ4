@@ -20,5 +20,9 @@ export enum ENDPOINTS {
     USERS_BY_GROUP = `/api/users/groups/{id}`,
     GRADE_QUEST_SUBMISSION = `/api/quests/grade/{quest}/{user}`,
     SUBMIT_QUEST = `/api/quests/submit/{quest}`,
-    SHOP_ITEMS_BY_GROUP = `/api/shop/groups/{id}`
+    SHOP_ITEMS_BY_GROUP = `/api/shop/groups/{id}`,
+    SHOP_PURCHASE = `/api/shop/purchase/{item}`,
+    ADD_QUEST = `/api/quests/add`,
+    ADD_SHOP_ITEM = `/api/shop/add`,
+    ADD_USER = `/api/users/add`,
 }

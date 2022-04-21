@@ -56,4 +56,12 @@ async function handler(
     return res.status(200).send({ success: true })
 }
 
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '50mb'
+        }
+    }
+}
+
 export default handler

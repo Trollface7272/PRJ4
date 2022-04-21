@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto"
 import { connection, Types } from "mongoose"
+import { calculateLevel } from "utils/serverUtils"
 import { Connect, Groups } from "."
 import { ServerUserTypes } from "./types/users"
 
@@ -86,10 +87,51 @@ class Users {
         const users = []
 
         let next
-        while (next = await cursor.next())
+        while (next = await cursor.next()) {
+            next.permissions = await Groups.getPermissions(next)
             users.push(next)
+        }
+            
         return users
-    } 
+    }
+    public static async getNameFromId(id: Types.ObjectId): Promise<string> {
+        const cluster = await this.userCluster()
+        const user = await cluster.findOne<ServerUserTypes.User>({_id: id})
+        if (!user) return ""
+        return user.name
+    }
+    public static async updateCoins(id: Types.ObjectId, amount: number) {
+        const cluster = await this.userCluster()
+        return cluster.updateOne({_id: id}, {$inc: {coins: amount}})
+    }
+    public static async updateXp(id: Types.ObjectId, amount: number) {
+        const cluster = await this.userCluster()
+        this.recalculateLevel(id)
+        return cluster.updateOne({_id: id}, {$inc: {xp: amount}})
+    }
+    public static async addUser(name: string, username: string, groups: string[], password: string) {
+        const cluster = await this.userCluster()
+        const user = {
+            name,
+            username,
+            password: this.hashPassword(password),
+            groups,
+            xp: 0,
+            coins: 0,
+            level: 0,
+            sessions: []
+        }
+        return cluster.insertOne(user)
+    }
+    private static async recalculateLevel(userId: Types.ObjectId) {
+        const cluster = await this.userCluster()
+        const user = await cluster.findOne<ServerUserTypes.User>({_id: userId})
+        if (!user) return
+        const level = calculateLevel(user.xp)
+        console.log(level);
+        
+        return cluster.updateOne({_id: userId}, {$set: {level}})
+    }
 }
 
 export default Users

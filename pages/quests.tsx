@@ -13,7 +13,7 @@ import React, { Dispatch, MouseEventHandler, SetStateAction, useEffect, useState
 import { ENDPOINTS } from "utils/requests"
 import axios from "axios"
 import Link from "next/link"
-import { readFile } from "utils/clientUtils"
+import { imageFormats, readFile } from "utils/clientUtils"
 
 interface baseProps {
     user: ClientUserTypes.User
@@ -38,19 +38,24 @@ const TeacherView = ({ groups, user }: teacherProps) => {
     const [activeGroup, setActiveGroup] = useState(0)
     const [activeQuest, setActiveQuest] = useState(0)
     const group = groups[activeGroup]
-    const { data: rQuests } = useSWR<{ quests: ClientQuestTypes.Quest[] }>(ENDPOINTS.QUESTS_BY_GROUP.replace("{id}", group._id), fetcher)
-    const { data: rUsers } = useSWR<{ users: ClientUserTypes.User[] }>(ENDPOINTS.USERS_BY_GROUP.replace("{id}", group._id), fetcher)
+    const router = useRouter()
+
+    const { data: rQuests } = useSWR<{ quests: ClientQuestTypes.Quest[] }>(ENDPOINTS.QUESTS_BY_GROUP.replace("{id}", group?._id), fetcher)
+    const { data: rUsers } = useSWR<{ users: ClientUserTypes.User[] }>(ENDPOINTS.USERS_BY_GROUP.replace("{id}", group?._id), fetcher)
 
     const quests = rQuests?.quests || []
-    const users = rUsers?.users || []
+    const users = rUsers?.users?.filter(e => !e.permissions.admin && !e.permissions.teacher) || []
     const quest = quests[activeQuest]
+    console.log(users);
+
 
     return (
         <div className="d-flex">
             <SideNav user={user} />
             <div className="w-100 d-flex justify-content-center" style={{ backgroundColor: "white" }}>
                 <div id={styles.select} className="w-75 border">
-                    <select className="w-100" onChange={(e) => setActiveGroup(parseInt(e.target.value))}>
+                    <button className="btn btn-primary my-2 w-100" onClick={() => router.push("/quest/add")}>{"Add Quest".localize()}</button>
+                    <select className="w-100 my-2" onChange={(e) => setActiveGroup(parseInt(e.target.value))}>
                         {groups.map((el, i) =>
                             <option key={el._id} value={i}>{el.name}</option>
                         )}
@@ -65,14 +70,16 @@ const TeacherView = ({ groups, user }: teacherProps) => {
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">{"Name".localize()}</th>
+                                <th scope="col">{"Xp".localize()}</th>
+                                <th scope="col">{"Coins".localize()}</th>
                                 <th scope="col">{"Points".localize()}</th>
                                 <th scope="col">{"Status".localize()}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((el, i) => {
+                            {quest ? users.map((el, i) => {
                                 return <ListItem user={el} quest={quest} index={i} key={el._id} />
-                            })}
+                            }) : ""}
                         </tbody>
                     </table>
                 </div>
@@ -99,7 +106,7 @@ const ListItem = ({ user, quest, index: i }: { user: ClientUserTypes.User, quest
             setPoints(0)
             return
         }
-        setPoints(submission.points || 0)
+        setPoints(submission.type === "graded" ? submission.points || 0 : 0)
 
         switch (submission.type) {
             case "graded":
@@ -122,6 +129,8 @@ const ListItem = ({ user, quest, index: i }: { user: ClientUserTypes.User, quest
         <tr onClick={onClick} key={user._id} className={submission ? "has-submission pointer" : ""}>
             <td>{i + 1}</td>
             <td>{user.name}</td>
+            <td>{submission?.type == "graded" ? Math.round(quest.rewards.xp * (points/100)) : quest.rewards.xp}</td>
+            <td>{submission?.type == "graded" ? Math.round(quest.rewards.coins * (points/100)) : quest.rewards.coins}</td>
             <td>{points}/100</td>
             <td>{state}</td>
         </tr>
@@ -168,11 +177,12 @@ const SubmissionDisplay = ({ submission, user, index: i, questId, changeSubmissi
 
     return (
         <tr className="td-hidden no-border" key={user._id + i}>
-            <td colSpan={4} className="no-border">
+            <td colSpan={6} className="no-border">
                 <div>{submission.text}</div>
+                <hr />
                 <div className="images" style={{ overflowX: "auto" }}>
                     {submission.files.map((el, i) =>
-                        <Link key={el} passHref href={el.replaceAll("\\", "/")}><a target="_blank" rel="noopener noreferrer"><img src={el} style={{ maxWidth: "200px" }} /></a></Link>
+                        <FileDisplay url={el} key={el} />
                     )}
                 </div>
                 {submission.type !== "failed" && submission.type !== "graded" && submission.type !== "returned" && state !== "✅" && state !== "❌" ? <div className="text-center">
@@ -184,6 +194,26 @@ const SubmissionDisplay = ({ submission, user, index: i, questId, changeSubmissi
                 </div> : ""}
             </td>
         </tr>
+    )
+}
+
+const FileDisplay = ({ url }: { url: string }) => {
+    const extension = url.split(".").pop() || ""
+    if (imageFormats.includes(extension)) return (
+        <Link key={url} passHref href={url.replaceAll("\\", "/")}>
+            <a target="_blank" rel="noopener noreferrer">
+                <img src={url} style={{ maxWidth: "200px" }} />
+            </a>
+        </Link>
+    )
+
+    return (
+        <Link key={url} passHref href={url.replaceAll("\\", "/")}>
+            <a target="_blank" rel="noopener noreferrer">
+            <button style={{maxWidth: "200px"}} className="btn btn-primary" key={url}>{"Download".localize()} {url.split("\\").pop()}</button>
+            </a>
+        </Link>
+        
     )
 }
 
@@ -216,7 +246,7 @@ const InputDisplay = ({ inputVisible, questId }: { inputVisible: boolean, questI
     return (
         <>
             <tr className={(inputVisible ? "" : "td-hidden ") + "no-border"} key={questId + 1}>
-                <td colSpan={4} className="no-border">
+                <td colSpan={6} className="no-border">
                     <textarea placeholder="Text" className="w-100" style={{ resize: "none", height: "100px" }} onInput={(e) => setText(e.currentTarget.value)} value={text} />
                     <input type="file" multiple onChange={onFileChange} />
                     <div className="text-center">
@@ -241,7 +271,7 @@ const ListQuest = ({ quest, index: i }: { quest: ClientQuestTypes.Quest, index: 
             setPoints(0)
             return
         }
-        setPoints(submission.points || 0)
+        setPoints(submission.type === "graded" ? submission.points || 0 : 0)
 
         switch (submission.type) {
             case "graded":
@@ -269,6 +299,8 @@ const ListQuest = ({ quest, index: i }: { quest: ClientQuestTypes.Quest, index: 
         <tr onClick={onClick} key={quest._id} className={!quest.submissions ? "has-submission pointer" : ""}>
             <td>{i + 1}</td>
             <td>{quest.name}</td>
+            <td>{submission?.type == "graded" ? Math.round(quest.rewards.xp * (points/100)) : quest.rewards.xp}</td>
+            <td>{submission?.type == "graded" ? Math.round(quest.rewards.coins * (points/100)) : quest.rewards.coins}</td>
             <td>{points}/100</td>
             <td>{state}</td>
         </tr>
@@ -287,29 +319,19 @@ const StudentView = ({ quests, user }: baseProps) => {
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">{"Name".localize()}</th>
+                                <th scope="col">{"Xp".localize()}</th>
+                                <th scope="col">{"Coins".localize()}</th>
                                 <th scope="col">{"Points".localize()}</th>
                                 <th scope="col">{"Status".localize()}</th>
                             </tr>
                         </thead>
-                        <tbody style={{overflowY: "auto"}}>
+                        <tbody style={{ overflowY: "auto" }}>
                             {quests.map((el, i) => {
                                 return <ListQuest quest={el} index={i} key={el._id} />
                             })}
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    )
-}
-
-const StudentView2 = ({ quests, user }: baseProps) => {
-    const router = useRouter()
-    return (
-        <div className="d-flex">
-            <SideNav user={user} />
-            <div className="content flex-shrink-0 p-3 d-inline-block" style={{ overflowY: "auto" }}>
-                {quests.map(el => <div key={el._id} className="mx-2 my-1 float-start" onClick={() => router.push(`/quest/${el._id}`)}><QuestCard quest={el}></QuestCard></div>)}
             </div>
         </div>
     )
@@ -322,13 +344,24 @@ export async function getServerSideProps(props: NextPageContext) {
     if (!cookies.session) return { props: {} }
 
     const [backendUser, frontendUser] = await getUserData(cookies.session)
-    if (backendUser.permissions.admin || backendUser.permissions.teacher)
+    if (backendUser.permissions.admin)
+        return getAdminServersideProps(props, backendUser, frontendUser)
+    else if (backendUser.permissions.teacher)
         return getTeacherServersideProps(props, backendUser, frontendUser)
     else return getStudentServersideProps(props, backendUser, frontendUser)
 }
 
+const getAdminServersideProps = async ({ req, res }: NextPageContext, backendUser: ServerUserTypes.User, frontendUser: ClientUserTypes.User) => {
+    const groups = (await Groups.getAll()).filter(e => !e.admin && !e.teacher).map(el => ({ _id: el._id.toString(), name: el.name }))
+    console.log(groups);
+
+    return { props: { user: frontendUser, groups } }
+}
+
 const getTeacherServersideProps = async ({ req, res }: NextPageContext, backendUser: ServerUserTypes.User, frontendUser: ClientUserTypes.User) => {
-    const groups = (await Groups.getUserGroups(backendUser)).map(el => ({ _id: el._id.toString(), name: el.name }))
+    const groups = (await Groups.getUserGroups(backendUser)).filter(e => !e.admin && !e.teacher).map(el => ({ _id: el._id.toString(), name: el.name }))
+    console.log(groups);
+
     return { props: { user: frontendUser, groups } }
 }
 

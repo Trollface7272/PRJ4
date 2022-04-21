@@ -52,11 +52,11 @@ const Profile = ({user, languages}: params) => {
                             {"Username".localize()}
                         </div>
                         <div className="card-body">
-                            <InputTextBox id="current-username" label="Current Username" type="text" value={user.username} readonly={true} />
+                            <InputTextBox id="current-username" label={"Current Username".localize()} type="text" value={user.username} readonly={true} />
                             {user.permissions.profile.usernameChange ?
                                 <>
-                                    <InputTextBox id="new-username" label="New Username" type="text" />
-                                    <InputTextBox id="current-password-username" label="Current Password" type="password" />
+                                    <InputTextBox id="new-username" label={"New Username".localize()} type="text" />
+                                    <InputTextBox id="current-password-username" label={"Current Password".localize()} type="password" />
                                     <Button onClick={changeUsername} className="w-100" text={"Change Username".localize()} />
                                 </> : ""}
                         </div>
@@ -67,11 +67,11 @@ const Profile = ({user, languages}: params) => {
                             {"Name".localize()}
                         </div>
                         <div className="card-body">
-                            <InputTextBox id="current-name" label="Current Name" type="text" value={user.name} readonly={true} />
+                            <InputTextBox id="current-name" label={"Current Name".localize()} type="text" value={user.name} readonly={true} />
                             {user.permissions.profile.nameChange ?
                                 <>
-                                    <InputTextBox id="new-name" label="New Name" type="text" />
-                                    <InputTextBox id="current-password-name" label="Current Password" type="password" />
+                                    <InputTextBox id="new-name" label={"New Name".localize()} type="text" />
+                                    <InputTextBox id="current-password-name" label={"Current Password".localize()} type="password" />
                                     <Button onClick={changeName} className="w-100" text={"Change Name".localize()} />
                                 </> : ""}
                         </div>
@@ -82,11 +82,11 @@ const Profile = ({user, languages}: params) => {
                             {"Password".localize()}
                         </div>
                         <div className="card-body">
-                            <InputTextBox id="current-password" label="Current Password" type="password" />
+                            <InputTextBox id="current-password" label={"Current Password".localize()} type="password" />
                             {user.permissions.profile.passwordChange ?
                                 <>
-                                    <InputTextBox id="new-password" label="New Password" type="password" />
-                                    <InputTextBox id="new-password-confirm" label="New Password" type="password" />
+                                    <InputTextBox id="new-password" label={"New Password".localize()} type="password" />
+                                    <InputTextBox id="new-password-confirm" label={"New Password".localize()} type="password" />
                                     <Button onClick={changePassword} className="w-100" text={"Change Password".localize()} />
                                 </> : ""}
                         </div>
@@ -115,7 +115,7 @@ export async function getServerSideProps({ req, res }: NextPageContext) {
     if (!cookies.session) return { props: {} }
     const [,user] = await getUserData(cookies.session)
     
-    return { props: { user, languages: [{name: "English", displayName: "English"}] } }
+    return { props: { user, languages: [{name: "EN", displayName: "English"},{name: "CZ", displayName: "Česky"}] } }
 }
 
 export default Profile

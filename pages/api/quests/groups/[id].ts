@@ -14,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (req.method !== "POST") return res.status(400).send({ message: 'Only POST requests allowed' })
     const { id: group } = req.query
     
+    if (group == "undefined") return res.send({quests: []})
     if (!req?.cookies?.session) return res.status(403).send({ message: "Unset session" })
 
     const user = await Users.fromSession(req.cookies.session)

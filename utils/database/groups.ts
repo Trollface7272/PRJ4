@@ -53,6 +53,16 @@ class Groups {
         }
         return permissions
     }
+    public static async getAll(): Promise<ServerGroupTypes.Group[]> {
+        const cluster = await this.groupsCluster()
+        const cursor = cluster.find<ServerGroupTypes.Group>({})
+        const groups: ServerGroupTypes.Group[] = []
+        let next
+        while (next = await cursor.next())
+            groups.push(next)
+
+        return groups
+    }
 }
 
 export default Groups

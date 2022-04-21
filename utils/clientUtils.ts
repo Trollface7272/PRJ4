@@ -10,3 +10,12 @@ export const readFile = (file: File) => {
         reader.readAsDataURL(file)
     })
 }
+
+export const calculateProgress = (level: number, xp: number) => {
+    const nextLevel = 250 * (1.5 * (level + 1))
+    const currentLevel = 250 * (1.5 * level)
+    const requiredXp = nextLevel - currentLevel
+    const currentXp = xp - currentLevel
+    const progress = Math.round((currentXp / requiredXp) * 100)
+    return progress
+}

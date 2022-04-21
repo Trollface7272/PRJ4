@@ -19,6 +19,7 @@ async function handler(
 
     const { id: group } = req.query
 
+    if (group == "undefined") return res.send({users: []})
     if (!req?.cookies?.session) return res.status(400).send({ message: "Unset session" })
     if (!group) return res.status(400).send({ message: "Unset id" })
 

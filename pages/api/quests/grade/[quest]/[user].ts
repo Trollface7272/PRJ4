@@ -1,4 +1,3 @@
-import { ClientQuestTypes } from '@database/types/quests'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Users, Quests } from "utils/database/index"
 import {Types} from "mongoose"
@@ -29,6 +28,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const toGradeUser = await Users.fromId(new Types.ObjectId(userId as string))
     if(!toGradeUser) return res.status(404).send({ message: "Submission not found" })
     await Quests.gradeSubmission(quest._id, toGradeUser?._id, action, points)
+    if (action === "graded") {
+        await Users.updateCoins(toGradeUser._id, Math.round(quest.rewards.coins * points/100))
+        await Users.updateXp(toGradeUser._id, Math.round(quest.rewards.xp * points/100))
+    }
 
     return res.status(200).json({ success: true })
 }

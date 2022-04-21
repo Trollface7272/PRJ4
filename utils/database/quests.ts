@@ -1,13 +1,13 @@
 import { connection, Types } from "mongoose"
 import { Connect } from ".";
-import { ServerQuestTypes } from "./types/quests"
+import { ClientQuestTypes, ServerQuestTypes } from "./types/quests"
 import { ServerUserTypes } from "./types/users"
 
 class Quests {
     private static questCluster = async () => { await Connect(); return connection.collection("quests") }
     public static async getAvailibleQuests(user: ServerUserTypes.User) {
         const cluster = await this.questCluster()
-        const cursor = cluster.find<ServerQuestTypes.Quest>({ "requirements.groups": { $in: [user.groups] }, "requirements.level": { $lte: user.level } })
+        const cursor = cluster.find<ServerQuestTypes.Quest>({ "requirements.groups": { $all: user.groups }, "requirements.level": { $lte: user.level } })
         const quests: ServerQuestTypes.Quest[] = []
         let next
         while (next = await cursor.next())
@@ -18,7 +18,7 @@ class Quests {
     }
     public static async getQuestByIdWithUser(user: ServerUserTypes.User, id: Types.ObjectId) {
         const cluster = await this.questCluster()
-        const quest = cluster.findOne<ServerQuestTypes.Quest>({ "requirements.groups": { $in: [user.groups] }, "requirements.level": { $lte: user.level }, _id: id })
+        const quest = cluster.findOne<ServerQuestTypes.Quest>({ "requirements.groups": { $all: user.groups }, "requirements.level": { $lte: user.level }, _id: id })
         return quest
     }
     public static async getQuestById(id: Types.ObjectId) {
@@ -45,7 +45,7 @@ class Quests {
     }
     public static async getByGroup(id: Types.ObjectId) {
         const cluster = await this.questCluster()
-        const cursor = cluster.find<ServerQuestTypes.Quest>({"requirements.groups": {$all: [id]}})
+        const cursor = cluster.find<ServerQuestTypes.Quest>({ "requirements.groups": { $all: [id] } })
 
         const quests = []
         let next
@@ -54,7 +54,7 @@ class Quests {
         return quests
     }
     public static async gradeSubmission(
-        questId: Types.ObjectId, userId: Types.ObjectId, type: "graded" | "returned" | "failed", points: number=0
+        questId: Types.ObjectId, userId: Types.ObjectId, type: "graded" | "returned" | "failed", points: number = 0
     ) {
         const cluster = await this.questCluster()
         cluster.updateOne({ _id: questId, "submissions.userId": userId }, {
@@ -62,6 +62,12 @@ class Quests {
                 "submissions.$.type": type,
                 "submissions.$.points": points
             }
+        })
+    }
+    public static async addQuest(name: string, description: string, groups: string[], level: number, xp: number, coins: number) {
+        const cluster = await this.questCluster()
+        cluster.insertOne({
+            name, description, requirements: {groups: groups.map(e => new Types.ObjectId(e)), level}, rewards: { xp, coins }
         })
     }
 }
