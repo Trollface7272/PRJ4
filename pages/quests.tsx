@@ -139,8 +139,8 @@ const ListItem = ({ user, quest, index: i }: { user: ClientUserTypes.User, quest
 }
 
 const SubmissionDisplay = ({ submission, user, index: i, questId, changeSubmission, changePoints, state }: { submission?: ClientQuestTypes.QuestSubmissions, user: ClientUserTypes.User, index: number, questId: string, changeSubmission: Dispatch<SetStateAction<string>>, changePoints: Dispatch<SetStateAction<number>>, state: string }) => {
+    const [points, setPoints] = useState<string | number>(submission?.points || 0)
     if (!submission) return (<></>)
-    const [points, setPoints] = useState<string | number>(submission.points || 0)
 
     const onAccept = async () => {
         await submit({ action: "graded", points })

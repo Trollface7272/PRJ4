@@ -1,10 +1,9 @@
 import { Types } from "mongoose"
-import { ServerMessageTypes, ClientMessageTypes } from "@database/types/messages";
 import { ClientQuestTypes, ServerQuestTypes } from "@database/types/quests";
 import { ClientShopTypes, ServerShopTypes } from "@database/types/shop";
 import { ServerUserTypes, ClientUserTypes } from "@database/types/users";
 import { ServerResponse } from "http";
-import { Quests, Users, Messages, Shop } from "./database";
+import { Quests, Users, Shop } from "./database";
 
 export const validateSession = async (session: string, res: ServerResponse) => {
     if (!await Users.isSessionValid(session)) {
@@ -89,49 +88,6 @@ export const getShopItems = async (user: ServerUserTypes.User): Promise<[ServerS
         stock: item.stock
     }))
     return [backendItems, frontendItems]
-}
-
-export const getMessages = async (user: ServerUserTypes.User): Promise<[ServerMessageTypes.Message[], ClientMessageTypes.Message[]]> => {
-    const backendMessages = await Messages.getAllMessages(user)
-    const frontendMessages: ClientMessageTypes.Message[] = backendMessages.map(msg => ({
-        _id: msg._id.toString(),
-        text: msg.text,
-        fileNames: msg.fileNames,
-        originalNames: msg.originalNames,
-        to: {
-            isMe: msg.to.isMe,
-            _id: msg.to._id.toString(),
-            name: msg.to.name
-        },
-        from: {
-            isMe: msg.from.isMe,
-            _id: msg.from._id.toString(),
-            name: msg.from.name
-        }
-    }))
-    return [backendMessages, frontendMessages]
-}
-
-export const getMessage = async (user: ServerUserTypes.User, id: string): Promise<[ServerMessageTypes.Message, ClientMessageTypes.Message]> => {
-    const backendMessage = await Messages.getMessageByIdWithUser(user, new Types.ObjectId(id))
-    if (!backendMessage) throw { message: "Not found" }
-    const frontendMessage: ClientMessageTypes.Message = {
-        _id: backendMessage._id.toString(),
-        text: backendMessage.text,
-        fileNames: backendMessage.fileNames,
-        originalNames: backendMessage.originalNames,
-        to: {
-            isMe: backendMessage.to.isMe,
-            _id: backendMessage.to._id.toString(),
-            name: backendMessage.to.name
-        },
-        from: {
-            isMe: backendMessage.from.isMe,
-            _id: backendMessage.from._id.toString(),
-            name: backendMessage.from.name
-        }
-    }
-    return [backendMessage, frontendMessage]
 }
 
 export const calculateLevel = (xp: number) => {

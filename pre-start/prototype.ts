@@ -42,6 +42,8 @@ const languages = {
         "Current Name": "Současné jméno",
         "New Name": "Nové jméno",
         "New Password": "Nové heslo",
+        "Login": "Přihlásit se",
+        "Please enter your login and password!": "Prosím zadejte své uživatelské jmáno a heslo!"
     },
     EN: {
         "App Name": "Gamifikace",
@@ -84,6 +86,8 @@ const languages = {
         "Current Name": "Current Name",
         "New Name": "New Name",
         "New Password": "New Password",
+        "Login": "Login",
+        "Please enter your login and password!": "Please enter your username and password!"
     }
 }
 

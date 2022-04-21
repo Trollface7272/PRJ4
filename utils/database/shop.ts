@@ -7,7 +7,7 @@ class Shop {
     private static shopCluster = async () => { await Connect(); return connection.collection("shopitems") }
     public static async getAvailibleItems(user: ServerUserTypes.User) {
         const cluster = await this.shopCluster()
-        const cursor = cluster.find<ServerShopTypes.Item>({ "requirements.groups": { $in: [user.groups] }, "requirements.level": { $lte: user.level } })
+        const cursor = cluster.find<ServerShopTypes.Item>({ "requirements.groups": { $all: user.groups }, "requirements.level": { $lte: user.level } })
         const items: ServerShopTypes.Item[] = []
         let next
         while (next = await cursor.next())
